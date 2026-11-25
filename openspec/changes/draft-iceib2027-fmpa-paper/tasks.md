@@ -57,9 +57,9 @@
 - [x] 8.1 靜態檢查：每個 `\cite` 都在 bib、每個 `\ref` 都有 `\label`、括號成對
 - [x] 8.2 快照修改後版本到 `paper/after/` 並打包 zip；`paper/README.md` 寫修改前/後對照表
 - [x] 8.3 `openspec validate draft-iceib2027-fmpa-paper --strict` 通過
-- [x] 8.4 Overleaf 編譯（專案 FMPA-ICEIB2027-after）：0 errors、0 warnings、無 undefined citation、6 頁（≤ 8）
+- [x] 8.4 Overleaf 編譯（專案 FMPA-ICEIB2027-after-v2）：0 errors、0 warnings、無 undefined citation、7 頁（≤ 8）
 - [ ] 8.5 （作者）Overleaf 下載 PDF 存為 `paper/before/before.pdf` 與 `paper/after/after.pdf`，並截圖修改前/後
-- [ ] 8.6 （作者）填入作者姓名、單位、email
+- [x] 8.6 作者：Ya-Ting Yu，Department of Computer Science and Engineering, National Chung Hsing University, Taichung；email 已填
 - [x] 8.7 推送到 GitHub `jua91352/ICEIB2027`（2026-11-25）
 
 ## 9. Overleaf + MCP（講義 Step 1、Step 2）

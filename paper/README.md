@@ -12,6 +12,8 @@
 3. Agent 把 `../latex/` 的內容寫進 clone、commit、push 回 Overleaf。重新編譯後下載 PDF 存成 `after/after.pdf`，截圖存成 `after/overleaf-after.png`。
 4. Overleaf 右上角 **History** 會同時保留修改前與修改後兩個版本，可直接給老師看差異。
 
+> **目前 Overleaf 上的修改後版本是專案「FMPA-ICEIB2027-after-v2」**（填入 DIC3 真實數字與作者後重新上傳；舊的「FMPA-ICEIB2027-after」已過時）。
+>
 > **Overleaf 免費方案（本專案實際情況）**：沒有 Git 存取權，第 2–3 步改為：修改前＝Overleaf 專案「DIC4」（老師模板）；修改後＝把 `after/FMPA-ICEIB2027-after.zip` 用 New project → Existing project (.zip) 上傳成新專案。Agent 的修改前→修改後紀錄在本機 MCP 資料夾 `%USERPROFILE%\overleaf-projects\fmpa-paper` 的兩個 git commit。
 
 ## 逐節修改對照
@@ -37,5 +39,5 @@
 - [x] `tables/comparison.tex`：已填入 DIC3 封存測試數字（來源：prometheans152/FreshMarketPriceForecastAgent `docs/midterm/public_test_results.json`）。資訊圖表上的數字是錯的（不變價 macro-F1 實為 0.309，不是 0.620），未使用。
 - [x] `04_experiments.tex`：日期範圍、τ＝5%、RF/HGB 超參數與 seed 42；原稿的 θ 在 DIC3 系統中不存在，已移除。
 - [x] 模式 B 公式、動量基線視窗、0＝缺值：已依 DIC3 程式（`store_adapter.py`、`baselines.py`、`configs/project.yaml`）確認並改寫。
-- [ ] `main.tex`：作者英文姓名、單位、email（DIC3 repo 只有中文姓名；若雙盲審查則保持匿名）。
+- [x] `main.tex`：作者 Ya-Ting Yu（NCHU CSE, Taichung）與 email 已填（若 ICEIB 採雙盲審查，投稿前需匿名化）。
 - [ ] Overleaf 編譯：無錯誤、無 undefined citation、≤ 8 頁。
