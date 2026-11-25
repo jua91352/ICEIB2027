@@ -17,9 +17,13 @@
 ## Workflow（題目 → 發展）
 
 1. **DIC3 資料**（iLearning）→ [`AIoT-DIC3-ProjectRefactor/`](AIoT-DIC3-ProjectRefactor/)
-2. **Overleaf 帳號** → 上傳 `paper/before/*.zip`（修改前）與 `paper/after/*.zip`（修改後）
-3. **ChatGPT / Antigravity / Claude Code** → 讀 `myRef/` 與 DIC3 資料，產生 OpenSpec change 與 LaTeX
-4. **Antigravity（或 Claude Code）加入 Overleaf MCP** → 依 `tasks.md` 逐節修改 Overleaf 上的論文
+2. **Overleaf 帳號** → 講義 Step 1：New Project → **Upload Project**，上傳 `paper/before/FMPA-ICEIB2027-before.zip`（老師模板＝修改前）
+3. **ChatGPT / Antigravity / Claude Code** → 讀 `myRef/` 與 DIC3 資料，產生 OpenSpec change 與 `latex/` 論文
+4. **Agent 加入 Overleaf MCP** → 講義 Step 2：Overleaf Git 網址 + Git token → 執行 `setup_overleaf_mcp.ps1`（clone 到 `%USERPROFILE%\overleaf-projects\<資料夾>`，`uvx mcp-server-git` 註冊成 Claude Code MCP）→ Agent 把 `latex/` 寫進 clone、commit、push 回 Overleaf（修改後）
+
+### Overleaf 為什麼一定要有 `main.tex`？
+
+Overleaf 專案的**根目錄**必須有主檔（`main.tex`，含 `\documentclass`）。所以上傳到 Overleaf 的是 `latex/` 的內容（或 `paper/*/` 裡的 zip，zip 根目錄就是 `main.tex`），**不要上傳整個 ICEIB2027 資料夾**——它的根目錄是作業 repo，不是 LaTeX 專案。GitHub Sync 不是必要的；講義用的是 Overleaf 的 Git integration。
 
 ## 資料夾結構
 

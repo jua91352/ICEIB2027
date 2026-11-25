@@ -23,6 +23,10 @@ Local build (needs TeX Live with IEEEtran, TikZ, tabularx, algorithmicx): `latex
 
 Red **TODO/TBD** markers in the PDF are values the authors must verify from the DIC3 experiment logs before submission.
 
-## Editing with an agent + Overleaf MCP
+## Editing with an agent + Overleaf MCP (course Step 2)
 
-The DIC4 workflow edits this folder with an AI agent (Claude Code or Antigravity) connected to Overleaf through an Overleaf MCP server. Keep the MCP configuration and any Overleaf token in your local, git-ignored settings (`.mcp.json`, `.claude/settings.local.json`) — never commit them. Work task by task from `../openspec/changes/draft-iceib2027-fmpa-paper/tasks.md`.
+1. Overleaf project → Menu → Git: copy the Git URL (`https://git.overleaf.com/<project-id>`). Account Settings → Git integration → Generate token.
+2. Run the course script `setup_overleaf_mcp.ps1`. It clones the project to `%USERPROFILE%\overleaf-projects\<folder>` (Git Credential Manager asks for the token) and registers it with Claude Code: `claude mcp add overleaf-<folder> --scope user -- uvx mcp-server-git --repository <folder>`.
+3. The agent copies this folder's files into the clone, commits, and pushes; Overleaf shows the new version and keeps the old one in History.
+
+The Overleaf token stays in Git Credential Manager — never commit it. Work task by task from `../openspec/changes/draft-iceib2027-fmpa-paper/tasks.md`.

@@ -5,11 +5,14 @@
 | 修改前（before） | `before/latex/`、`before/FMPA-ICEIB2027-before.zip` | 原始 ICEIB 2027 IEEE 模板（與 `../ICEIB paper/ICEIB2027-IEEE.zip` 相同），全部為 placeholder |
 | 修改後（after） | `after/latex/`、`after/FMPA-ICEIB2027-after.zip` | 依 OpenSpec change `draft-iceib2027-fmpa-paper` 改寫的 FMPA 論文初稿（快照；持續編輯的版本在 `../latex/`） |
 
-## 在 Overleaf 上比較
+## 在 Overleaf 上產生修改前 / 修改後（同一個專案）
 
-1. Overleaf → **New Project → Upload Project**，上傳 `before/FMPA-ICEIB2027-before.zip`，編譯後下載 PDF，存成 `before/before.pdf`。
-2. 同樣上傳 `after/FMPA-ICEIB2027-after.zip`（主檔 `main.tex`，編譯器 pdfLaTeX），下載 PDF 存成 `after/after.pdf`。
-3. （可選）兩個專案各截一張圖存成 `before/overleaf-before.png`、`after/overleaf-after.png`。
+1. Overleaf → **New Project → Upload Project**，上傳 `before/FMPA-ICEIB2027-before.zip`（主檔 `main.tex`，編譯器 pdfLaTeX）。編譯後下載 PDF 存成 `before/before.pdf`，截圖存成 `before/overleaf-before.png`。
+2. 依講義 Step 2 執行 `setup_overleaf_mcp.ps1`，把這個 Overleaf 專案 clone 到本機並註冊成 MCP。
+3. Agent 把 `../latex/` 的內容寫進 clone、commit、push 回 Overleaf。重新編譯後下載 PDF 存成 `after/after.pdf`，截圖存成 `after/overleaf-after.png`。
+4. Overleaf 右上角 **History** 會同時保留修改前與修改後兩個版本，可直接給老師看差異。
+
+> 不用 Git 的備案：把 `after/FMPA-ICEIB2027-after.zip` 另外上傳成一個新專案。
 
 ## 逐節修改對照
 

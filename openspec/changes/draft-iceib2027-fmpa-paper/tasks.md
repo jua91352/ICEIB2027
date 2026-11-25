@@ -61,3 +61,11 @@
 - [ ] 8.5 （作者）Overleaf 下載 PDF 存為 `paper/before/before.pdf` 與 `paper/after/after.pdf`，並截圖修改前/後
 - [ ] 8.6 （作者）填入作者姓名、單位、email
 - [ ] 8.7 推送到 GitHub `jua91352/ICEIB2027`
+
+## 9. Overleaf + MCP（講義 Step 1、Step 2）
+
+- [x] 9.1 安裝 `uv`（uvx）與 Claude Code CLI（`claude`），老師的部署腳本需要這兩個指令
+- [ ] 9.2 （作者）Overleaf → New Project → Upload Project，上傳 `paper/before/FMPA-ICEIB2027-before.zip`（修改前）
+- [ ] 9.3 （作者）Overleaf 專案 Menu → Git 複製 Git 網址；Account Settings → Git integration → Generate token
+- [ ] 9.4 （作者）執行 `setup_overleaf_mcp.ps1`：clone 到 `%USERPROFILE%\overleaf-projects\<資料夾>`，並以 `uvx mcp-server-git` 註冊 Claude Code MCP
+- [ ] 9.5 Agent 把 `latex/` 內容寫入 Overleaf 本機 clone、commit，push 回 Overleaf（修改後；Overleaf History 保留修改前）
