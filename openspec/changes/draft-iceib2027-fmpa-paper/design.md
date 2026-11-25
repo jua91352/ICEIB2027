@@ -29,7 +29,7 @@
    DIC3 的結果是模型未勝動量／不變價基線。若把貢獻寫成預測準確度，會與結果矛盾；改寫成 (C1) 現價錨定的 Domain AI Agent 架構、(C2) 固定 7/14 日曆天 + 防洩漏 + 強基線的評估協定、(C3) 負向結果與其領域解釋（價格黏性）。
    *替代方案*：只報 RF/HGB 的分數、淡化基線 → 違反研究誠信，也違反作業規範「不得虛構」。
 
-2. **標題**：*FMPA: A Store-Price-Anchored Domain AI Agent for 7- and 14-Day Fresh Vegetable Price Forecasting*。同時點出「現價錨定」「Domain AI Agent」「7/14 天」三個關鍵字。
+2. **標題**：*FMPA: A Store-Price-Anchored Domain AI Agent for 7- and 14-Day Vegetable Price Forecasting*。同時點出「現價錨定」「Domain AI Agent」「7/14 天」三個關鍵字（Overleaf 編譯後為了讓標題剛好兩行，拿掉 "Fresh"）。
 
 3. **A2Z 對應方式**：每個 `.tex` 檔內用 LaTeX 註解標示 `% A`、`% G`、`% PA` 等查核點，PDF 上看不到、但老師與 Agent 可以在原始碼逐點核對。
    *替代方案*：在正文寫出 A/B/C 標題 → 不符合 IEEE 論文慣例。

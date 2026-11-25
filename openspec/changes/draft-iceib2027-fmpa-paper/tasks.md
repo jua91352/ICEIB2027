@@ -57,7 +57,7 @@
 - [x] 8.1 靜態檢查：每個 `\cite` 都在 bib、每個 `\ref` 都有 `\label`、括號成對
 - [x] 8.2 快照修改後版本到 `paper/after/` 並打包 zip；`paper/README.md` 寫修改前/後對照表
 - [x] 8.3 `openspec validate draft-iceib2027-fmpa-paper --strict` 通過
-- [ ] 8.4 （作者）上傳 Overleaf 編譯，確認無錯誤、無 undefined citation、≤ 8 頁
+- [x] 8.4 Overleaf 編譯（專案 FMPA-ICEIB2027-after）：0 errors、0 warnings、無 undefined citation、6 頁（≤ 8）
 - [ ] 8.5 （作者）Overleaf 下載 PDF 存為 `paper/before/before.pdf` 與 `paper/after/after.pdf`，並截圖修改前/後
 - [ ] 8.6 （作者）填入作者姓名、單位、email
 - [ ] 8.7 推送到 GitHub `jua91352/ICEIB2027`
@@ -68,4 +68,4 @@
 - [x] 9.2 Overleaf 專案「DIC4」＝上傳老師模板 `ICEIB2027-IEEE.zip`（修改前）
 - [x] 9.3 產生 Overleaf Git token；Git 網址 `https://git@git.overleaf.com/<DIC4 專案 ID>`
 - [x] 9.4 Overleaf 免費方案回 "no git access"，無法 clone → 依講義「local folder connect to MCP」改用本機資料夾 `%USERPROFILE%\overleaf-projects\fmpa-paper`（git init：commit 1 = 模板／修改前，commit 2 = FMPA／修改後），以 `uvx mcp-server-git` 註冊為 Claude Code MCP `overleaf-fmpa-paper`（`claude mcp list` 顯示 ✔ Connected）
-- [ ] 9.5 （作者）Overleaf → New project → Existing project (.zip)，上傳 `paper/after/FMPA-ICEIB2027-after.zip`（修改後），Recompile 檢查無錯誤
+- [x] 9.5 Overleaf → New project → Existing project (.zip) 上傳修改後 zip（專案 FMPA-ICEIB2027-after），Recompile 0 errors；Agent 在 Overleaf 編輯器修正標題換行並重新編譯

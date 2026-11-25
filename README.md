@@ -3,7 +3,7 @@
 把 DIC3 期末專題 **FMPA（Fresh Market Price Forecast Agent，生鮮市場價格預測代理）** 改寫成 ICEIB 2027（IEEE track）會議論文初稿。
 論文以 Overleaf 撰寫（Agent + Overleaf MCP 編輯 LaTeX），改寫過程用 **OpenSpec** 規格管理。
 
-> 論文標題：*FMPA: A Store-Price-Anchored Domain AI Agent for 7- and 14-Day Fresh Vegetable Price Forecasting*
+> 論文標題：*FMPA: A Store-Price-Anchored Domain AI Agent for 7- and 14-Day Vegetable Price Forecasting*
 
 ## DIC4 繳交項目對照
 
