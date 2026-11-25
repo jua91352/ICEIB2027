@@ -34,9 +34,8 @@
 
 ## 投稿前作者必須處理（論文中以紅字標示）
 
-- [ ] `tables/comparison.tex`：從 DIC3 實驗紀錄填入 macro-F1 / MAE，刪除所有 **TBD**。
-  **不要**使用 `myRef/` 資訊圖表上的數字——該圖是 AI 生成，7 天 RF 的 MAE（0.060）比不變價（0.062）低，與文字「MAE 未勝不變價基線」矛盾。
-- [ ] `04_experiments.tex`：訓練/測試日期範圍、方向容忍值 τ、RF/HGB 超參數與 seed、θ 數值。
-- [ ] `03_proposed_scheme.tex` 公式 (3)（模式 B）與 `04_experiments.tex` 動量基線的視窗：原始碼中標 `VERIFY(author)`，請對照 DIC3 ForecastEngine 程式確認。
-- [ ] `main.tex`：作者、單位、email（若雙盲審查則保持匿名）。
+- [x] `tables/comparison.tex`：已填入 DIC3 封存測試數字（來源：prometheans152/FreshMarketPriceForecastAgent `docs/midterm/public_test_results.json`）。資訊圖表上的數字是錯的（不變價 macro-F1 實為 0.309，不是 0.620），未使用。
+- [x] `04_experiments.tex`：日期範圍、τ＝5%、RF/HGB 超參數與 seed 42；原稿的 θ 在 DIC3 系統中不存在，已移除。
+- [x] 模式 B 公式、動量基線視窗、0＝缺值：已依 DIC3 程式（`store_adapter.py`、`baselines.py`、`configs/project.yaml`）確認並改寫。
+- [ ] `main.tex`：作者英文姓名、單位、email（DIC3 repo 只有中文姓名；若雙盲審查則保持匿名）。
 - [ ] Overleaf 編譯：無錯誤、無 undefined citation、≤ 8 頁。

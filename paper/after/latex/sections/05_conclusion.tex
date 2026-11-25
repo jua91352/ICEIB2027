@@ -13,15 +13,17 @@ and keeps every number inside deterministic MCP tools, with explicit errors
 when data are missing.
 
 % Y = Yields
-On 13 public markets in Taichung City, RandomForest and HistGradientBoosting
-models did not outperform the momentum baseline in direction macro-F1 or the
-no-change baseline in relative-change MAE. The current value of FMPA therefore
-lies in its transparent, store-anchored presentation of forecasts and
-baselines, not in superior accuracy.
+For three vegetables in 13 public markets in Taichung City, RandomForest and
+HistGradientBoosting models reached direction macro-F1 of 0.422 and 0.417,
+above the no-change baseline but below momentum (0.423 and 0.431), and their
+relative-change MAE was worse than that of the no-change baseline. The current
+value of FMPA therefore lies in its transparent, store-anchored presentation of
+forecasts and baselines, not in superior accuracy.
 
 % Z = Zen (limitations and future work)
-The main limitation is that public market prices are only a proxy for
-individual store prices. Future work will collect matured same-store prices
-for paired validation of the forecasts; add feature engineering and event
+The main limitations are that public market prices are only a proxy for
+individual store prices and that the benefit of mode B is still unproven.
+Future work will collect matured same-store prices for paired validation of
+modes A and B; add feature engineering and event
 indicators, such as typhoon warnings and arrival volumes; attach uncertainty
 estimates to every forecast; and run a user study of the agent interface.

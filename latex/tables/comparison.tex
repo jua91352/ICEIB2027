@@ -1,8 +1,8 @@
-% TODO(author): copy the verified values from the DIC3 experiment logs and
-% delete every \tbd. Do NOT reuse numbers from the AI-generated infographic:
-% they contradict the written finding (see paper/README.md).
+% Values from the DIC3 frozen test results:
+% github.com/prometheans152/FreshMarketPriceForecastAgent, docs/midterm/public_test_results.json
+% (frozen split SHA-256 4e136574...). Best value per horizon and metric in bold.
 \begin{table}[t]
-\caption{Results on the held-out test sets (values pending verification)}
+\caption{Results on the held-out test period (2026-07-22 to 2026-10-02)}
 \label{tab:comparison}
 \centering
 \footnotesize
@@ -10,15 +10,15 @@
 \toprule
 Horizon & Method & Macro-F1 $\uparrow$ & MAE $\downarrow$ \\
 \midrule
-7 days ($n=2{,}085$) & No-change & \tbd & \tbd \\
- & Momentum & \tbd & \tbd \\
- & RF, mode A & \tbd & \tbd \\
- & RF, mode B & \tbd & \tbd \\
+7 days ($n=2{,}085$) & No-change & 0.309 & \textbf{0.044} \\
+ & Momentum & \textbf{0.423} & 0.079 \\
+ & Train mean by crop & 0.309 & 0.047 \\
+ & RandomForest & 0.422 & 0.066 \\
 \midrule
-14 days ($n=1{,}859$) & No-change & \tbd & \tbd \\
- & Momentum & \tbd & \tbd \\
- & HGB, mode A & \tbd & \tbd \\
- & HGB, mode B & \tbd & \tbd \\
+14 days ($n=1{,}859$) & No-change & 0.295 & \textbf{0.075} \\
+ & Momentum & \textbf{0.431} & 0.124 \\
+ & Train mean by crop & 0.295 & 0.081 \\
+ & HistGradientBoosting & 0.417 & 0.098 \\
 \bottomrule
 \end{tabular}
 \end{table}

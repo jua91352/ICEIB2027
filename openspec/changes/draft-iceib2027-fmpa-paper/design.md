@@ -54,7 +54,7 @@
 
 ## Risks / Trade-offs
 
-- [資訊圖表數字與文字矛盾：圖表中 7 天 RF 的 MAE（0.060）低於不變價（0.062），但文字寫「MAE 未勝持平不變價基線」] → 論文不採用圖表數字；結果表用 `\todo`，由作者從 DIC3 原始實驗紀錄核對後填入。
+- [資訊圖表數字與文字矛盾：圖表中 7 天 RF 的 MAE（0.060）低於不變價（0.062），但文字寫「MAE 未勝持平不變價基線」] → 論文不採用圖表數字。**已解決（2026-11-25）**：數字改取自 DIC3 repo（github.com/prometheans152/FreshMarketPriceForecastAgent）的 `docs/midterm/public_test_results.json`；不變價 macro-F1 實為 0.309（圖表誤寫 0.620）。同時依該 repo 的 design.md／configs 修正：模式 B 公式、兩個 MCP 工具、無 θ、三品項與單位規則、三個基線、切分日期與超參數。
 - [本機無法編譯 LaTeX，TikZ 或表格可能有編譯錯誤] → 只用 TeX Live 標準套件；送出前在 Overleaf 編譯，`tasks.md` 保留「Overleaf 編譯通過」為未勾選任務。
 - [頁數超過 8 頁] → 8 欄表格用 `\scriptsize`；若超頁，先刪 Related Work 敘述文字、保留表格。
 - [文獻幻覺] → 所有文獻經網路查證（DOI / 官方網址），`references.bib` 只收已查證條目；作者投稿前再抽查。

@@ -2,13 +2,12 @@
 % A = Attention getter (motivation)
 After major typhoons and heavy rain in Taiwan, average wholesale vegetable
 prices have risen by about 10--40\% in the first week and by up to about
-100\% in the third week, yet a shopper who sees today's shelf price has no
-tool that says whether it will rise or fall.
+100\% in the third week, yet shoppers seeing today's shelf price cannot tell
+whether it will rise or fall.
 % B = But (challenge)
-Published market averages are not the price of an individual store, retail
-prices stay unchanged most of the time and then move abruptly, and large
-language models (LLMs) asked about prices directly may produce unsupported
-numbers.
+Market averages are not store prices, retail prices are sticky but jump
+abruptly, and large language models (LLMs) asked about prices may produce
+unsupported numbers.
 % C = Cure (proposed solution)
 We propose the Fresh Market Price Forecast Agent (FMPA), a domain AI agent
 that anchors short-term forecasts on the store price the user observes.
@@ -16,18 +15,19 @@ that anchors short-term forecasts on the store price the user observes.
 FMPA restricts the LLM to intent parsing and explanation, obtains every number
 through Model Context Protocol (MCP) tools, and estimates the relative price
 change at 7 and 14 calendar days with RandomForest and HistGradientBoosting
-models, applied either directly to the current price (mode A) or with a fixed
-weekly-momentum adjustment (mode B).
+models, applied to the store price (mode A) and, when a comparable same-store
+price from the previous week exists, adjusted by a fixed rule (mode B).
 % E = Experiments (evaluation)
-We evaluate FMPA on historical prices from 13 public markets in Taichung City
-with a leakage-safe chronological split (2,085 seven-day and 1,859
-fourteen-day test samples), against no-change and momentum baselines, using
-direction macro-F1 and the mean absolute error of the relative change.
+We evaluate the forecasting core on one year of daily prices of three
+vegetables in 13 public markets in Taichung City with a leakage-safe
+chronological split (2,085 seven-day and 1,859 fourteen-day test samples),
+against no-change and momentum baselines, using direction macro-F1 and the
+mean absolute error of the relative change.
 % F = Findings
-The learned models did not outperform these simple baselines, which is
-consistent with sticky retail prices, so we do not claim superiority over
-them. Future work will add feature engineering, event indicators, and
-uncertainty estimates, and will validate forecasts against matured same-store
+The models reached macro-F1 of 0.422 and 0.417 but did not outperform the
+momentum baseline, and their error exceeded that of the no-change baseline,
+consistent with sticky retail prices. Future work will add event indicators
+and uncertainty estimates and validate forecasts against matured same-store
 prices.
 \end{abstract}
 

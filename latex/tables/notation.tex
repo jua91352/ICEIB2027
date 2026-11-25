@@ -7,13 +7,14 @@
 \toprule
 Symbol & Meaning \\
 \midrule
-$t$, $h$ & query day; horizon $h\in\{7,14\}$ calendar days \\
-$P_t$ & price observed by the user in store $s$ on day $t$ \\
-$M_t$ & public market price of vegetable $v$ on day $t$ \\
-$\Delta_{t,h}$, $\hat{\Delta}_{t,h}$ & true and estimated relative change, Eq.~\eqref{eq:delta} \\
-$m_t$ & weekly momentum $(M_t-M_{t-7})/M_{t-7}$ \\
-$\alpha$ & fixed momentum weight in mode B ($0.3$) \\
-$\theta$ & intent-confidence threshold of the agent \\
+$t$, $h$ & user's query day; horizon $h\in\{7,14\}$ calendar days \\
+$P_t$ & store price seen by the user on day $t$ (NT\$/catty) \\
+$P'_{t'}$ & same-store price of the same item, $t'\in[t-9,t-5]$ \\
+$m_t$ & public market average price of vegetable $v$ on day $t$ \\
+$r_h$, $\hat{r}_h$ & true and estimated relative change, Eq.~\eqref{eq:delta} \\
+$\tau$ & flat band for the direction label ($0.05$) \\
+$c^{\mathrm{s}}_t$, $c^{\mathrm{p}}_t$ & store and public one-week price changes \\
+$\alpha$ & fixed, untrained weight in mode B ($0.3$) \\
 $\hat{P}^{(A)}_{t+h}$, $\hat{P}^{(B)}_{t+h}$ & forecasts of modes A and B \\
 \bottomrule
 \end{tabular}

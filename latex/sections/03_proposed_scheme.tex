@@ -2,12 +2,15 @@
 
 % PA = Aim
 \subsection{Design Aim}
-Given a natural-language query that names a vegetable $v$, a store or market
-$s$, and the price $P_t$ the user observes on day $t$, FMPA returns, for a
-horizon $h\in\{7,14\}$ calendar days, a forecast price $\hat{P}_{t+h}$, the
-predicted direction of change (down, flat, or up), and a short explanation of
-the evidence. When the evidence is insufficient, FMPA returns a clarification
-request or an explicit error instead of a number.
+Given a query that names a supported vegetable $v$ (cabbage, bok choy, or
+sponge gourd in the first version), the price $P_t$ the user sees in a store on
+day $t$ in NT\$ per catty or per kilogram, and optionally the same store's
+price for the same item from the previous week, FMPA returns, for each horizon
+$h\in\{7,14\}$ calendar days counted from the user's today, a reference price,
+the direction of change (down, flat, or up), the target date, the data source,
+and warnings. A missing field triggers a follow-up question; invalid input,
+insufficient data, or a model failure produce an explicit error instead of a
+number.
 
 % PB = Based on (domain mindsets), PC = Cure (why the design helps)
 \subsection{Design Principles from Domain Knowledge}
@@ -15,50 +18,56 @@ The design is based on five domain mindsets (M1--M5) that we distilled from
 the literature in Section~\ref{sec:related} and from our data; each maps to a
 system component.
 \begin{itemize}
-\item \textbf{M1 Price comparability first.} Prices are only comparable after
-units and specifications (e.g., per bundle vs.\ per catty) are normalized
-$\rightarrow$ a \texttt{normalize\_spec} tool.
-\item \textbf{M2 Temporal integrity.} A target at $t+h$ may be used for
-training only after it has matured; in our data, 1{,}386 immature samples were
-conservatively removed $\rightarrow$ a label-maturity filter in the training
-pipeline.
-\item \textbf{M3 Simple baselines first.} Because most retail prices do not
-change within a week~\cite{nakamura2008five}, every forecast is reported next
-to no-change and momentum baselines $\rightarrow$ baselines are computed by the
-ForecastEngine.
-\item \textbf{M4 Public $\neq$ private.} Public market averages describe a
-trend, not the price in a given store~\cite{meyer2004asymmetric}
-$\rightarrow$ store-price anchoring \eqref{eq:modeA}.
+\item \textbf{M1 Price comparability first.} Prices are compared only in NT\$
+per catty (1 catty $=0.6$\,kg); per-kilogram prices are converted, whereas
+units without a weight, such as per piece or per bunch, are rejected rather
+than guessed $\rightarrow$ unit validation in the API.
+\item \textbf{M2 Temporal integrity.} Features use only data published by
+$t-1$ (one-day publication delay), and a label at $t+h$ matures at $t+h+1$;
+1{,}386 rows that straddled split boundaries were purged $\rightarrow$
+feature builder and data split.
+\item \textbf{M3 Simple baselines first.} Most retail prices do not change
+within a week~\cite{nakamura2008five}; in our data, 86.7--92.8\% of seven-day
+price pairs are identical $\rightarrow$ no-change and momentum baselines are
+always reported.
+\item \textbf{M4 Public $\neq$ private.} A public market average describes a
+trend, not the price in a given store~\cite{meyer2004asymmetric}, and a
+published price of zero means ``no price'', never NT\$0 $\rightarrow$
+store-price anchoring~\eqref{eq:modeA} and missing-value handling.
 \item \textbf{M5 Error $\neq$ utility.} A small average error does not imply a
-better purchase decision $\rightarrow$ the output shows direction and evidence,
-not only a point value.
+better purchase decision $\rightarrow$ the output shows a direction band,
+dates, and warnings, not only a point value.
 \end{itemize}
 
 % PD = Design, PE = Paper elements, PG = Graph
 \subsection{System Architecture}
 Fig.~\ref{fig:architecture} shows the five modules of FMPA.
 
-\cnum{1}~\textit{User entry.} A web prototype and chat interface receive the
-query. An LLM extracts the intent $(v, s, P_t, h, \text{mode})$, selects tools,
-and finally explains the returned results in plain language. It is the only
-module that uses the LLM.
+\cnum{1}~\textit{User entry.} A mobile web page supports modes A and B. An
+external AI assistant (LLM) connects through MCP; it understands the question,
+selects tools, and explains the returned values, but never computes a price.
 
-\cnum{2}~\textit{MCP tools.} Typed tools exposed through the Model Context
-Protocol~\cite{anthropic2024mcp}---\texttt{get\_history},
-\texttt{normalize\_spec}, and \texttt{forecast}---validate their arguments and
-return JSON. The LLM can obtain a number only through these tools.
+\cnum{2}~\textit{MCP tools.} Two typed tools are exposed through the Model
+Context Protocol~\cite{anthropic2024mcp}. \texttt{get\_market\_quote} returns
+the public quote of a specified market without running a model;
+\texttt{post\_forecast} returns an anonymous mode-A forecast. If no market is
+given, it uses \texttt{all\_markets}: for each horizon, the median predicted
+relative change over at least 3 (and up to 13) markets with valid predictions.
 
-\cnum{3}~\textit{Oracle host API.} A REST service on a cloud host serves the
-tools, keeping data access and model inference outside the LLM context.
+\cnum{3}~\textit{Oracle host API.} A REST service on a cloud host validates
+fields and units, routes forecast requests to \cnum{4} and quote requests to
+\cnum{5}, and returns the results along the same path.
 
 \cnum{4}~\textit{ForecastEngine.} A RandomForest~\cite{breiman2001random}
-model for $h=7$ and a HistGradientBoosting model~\cite{ke2017lightgbm} for
-$h=14$, both implemented with scikit-learn~\cite{pedregosa2011scikit},
-estimate the relative change; the engine then applies mode A or B and computes
-the baselines.
+regressor for $h=7$ and a HistGradientBoosting regressor~\cite{ke2017lightgbm}
+for $h=14$, both implemented with scikit-learn~\cite{pedregosa2011scikit},
+estimate the relative change of the market price; the engine then applies
+mode A or B.
 
-\cnum{5}~\textit{Public historical data.} Daily price records from 13 public
-markets in Taichung City are used for features, training, and evaluation.
+\cnum{5}~\textit{Public historical data.} Daily average prices of the 13
+public retail markets in Taichung City~\cite{taichung2026retail}; the training
+and evaluation snapshot is frozen at 2026-10-02, and inference data are updated
+daily.
 
 \begin{figure}[t]
 \centering
@@ -71,51 +80,59 @@ every number.}
 
 % PF = Formulation
 \subsection{Problem Formulation}
-Table~\ref{tab:notation} lists the notation. Let $M_t$ be the public market
-price of $v$ on day $t$. The learning target is the relative change of the
-market price over $h$ calendar days,
+Table~\ref{tab:notation} lists the notation. Let $m_t$ be the public market
+average price of $v$ in a market on day $t$. The learning target is the
+relative change over $h$ calendar days, with both ends required to be positive
+prices on the exact dates,
 \begin{equation}
-\Delta_{t,h}=\frac{M_{t+h}-M_t}{M_t},
+r_h=\frac{m_{t+h}}{m_t}-1,
 \label{eq:delta}
 \end{equation}
-and the ForecastEngine outputs an estimate $\hat{\Delta}_{t,h}$.
+and its direction is \emph{up} if $r_h>\tau$, \emph{down} if $r_h<-\tau$, and
+\emph{flat} otherwise, with $\tau=0.05$. The ForecastEngine outputs an
+estimate $\hat{r}_h$.
 
 \textit{Mode A (store-price anchoring)} transfers the estimated relative change
 to the price the user actually sees:
 \begin{equation}
-\hat{P}^{(A)}_{t+h}=P_t\,\bigl(1+\hat{\Delta}_{t,h}\bigr).
+\hat{P}^{(A)}_{t+h}=P_t\,\bigl(1+\hat{r}_h\bigr).
 \label{eq:modeA}
 \end{equation}
+Because $P_t>0$, $(\hat{P}^{(A)}_{t+h}-P_t)/P_t=\hat{r}_h$, so anchoring does
+not change the predicted direction; it only expresses the market signal at the
+user's own price level.
 
-\textit{Mode B (weekly momentum adjustment)} adds a fixed fraction of the most
-recent weekly momentum $m_t=(M_t-M_{t-7})/M_{t-7}$:
-% VERIFY(author): confirm this exact form of mode B against the DIC3
-% ForecastEngine code before submission.
+\textit{Mode B (same-store weekly adjustment)} is available only when the same
+store's price $P'_{t'}$ for the same item and specification was observed at
+$t'\in[t-9,t-5]$. With the store change $c^{\mathrm{s}}_t=P_t/P'_{t'}-1$ and
+the latest visible one-week change of the public price $c^{\mathrm{p}}_t$,
 \begin{equation}
-\hat{P}^{(B)}_{t+h}=P_t\,\bigl(1+\hat{\Delta}_{t,h}+\alpha\, m_t\bigr),
+\hat{P}^{(B)}_{t+h}=P_t\bigl(1+\hat{r}_h+\alpha\,(c^{\mathrm{s}}_t-c^{\mathrm{p}}_t)\bigr),
 \qquad \alpha=0.3 .
 \label{eq:modeB}
 \end{equation}
-The coefficient $\alpha$ is fixed in advance and is not tuned on test data.
+The weight $\alpha$ is a fixed experimental rule that has not been trained or
+validated; if the inputs are not comparable, or $c^{\mathrm{p}}_t$ is missing,
+FMPA falls back to mode A and says why.
 
 \input{tables/notation}
 
 % PJ = Jump to an example
-\textit{Example.} A user reports green onions at NT\$380 per bundle, the
-price reported in Taipei during Typhoon Podul~\cite{pts2025onion}. If the
-engine returns $\hat{\Delta}_{t,7}=+2.4\%$, mode A gives
-$\hat{P}^{(A)}_{t+7}=380\times1.024\approx$ NT\$389. The numbers in this
-example are illustrative and are not experimental results.
+\textit{Example.} At the Zhongyi market, cabbage cost NT\$27 per catty on
+2025-10-04 and NT\$25 on 2025-10-11, so $r_7=25/27-1=-7.4\%<-\tau$ and the
+label is \emph{down}. For a user who sees cabbage at NT\$35 per catty, an
+estimate $\hat{r}_7=-3.0\%$ gives $\hat{P}^{(A)}_{t+7}=35\times0.97\approx$
+NT\$34.0 with direction \emph{flat}, because $|-3.0\%|\le5\%$. The second case
+is illustrative, not an experimental result.
 
 % PH = How, PI = Implementation (flowchart + pseudocode)
 \subsection{Processing Flow and Algorithm}
 Fig.~\ref{fig:flowchart} shows the processing flow from input to output. The
-check after intent parsing is the key safety step: if no matching history is
-found, or the intent confidence is below $\theta$, FMPA asks the user for
-clarification or reports ``no data'' rather than letting the LLM guess.
-Algorithm~\ref{alg:fmpa} gives the corresponding pseudocode. Lines 2 and 13
-are the only LLM calls; the forecast value is produced by tools in lines
-11--12.
+check after parsing is the key safety step: missing fields lead to a follow-up
+question, and invalid input, stale or insufficient data, or a model failure
+lead to an explicit error rather than a guessed number.
+Algorithm~\ref{alg:fmpa} gives the corresponding pseudocode. The LLM appears
+only in lines 1 and 12; every price is produced by tools in lines 6--10.
 
 \begin{figure}[t]
 \centering
@@ -127,25 +144,23 @@ clarification/error branch.}
 \end{figure}
 
 \begin{algorithm}[t]
-\caption{FMPA query handling}
+\caption{FMPA 7/14-day price query}
 \label{alg:fmpa}
 \begin{algorithmic}[1]
-\Require user query $q$ (text), threshold $\theta$, mode $\in\{A,B\}$
-\Ensure response $R$ (forecast, direction, explanation) or an error
-\State $u \gets \Call{Preprocess}{q}$
-\State $(v, s, P_t, h) \gets \Call{LLM.ParseIntent}{u}$
-\While{$\Call{Confidence}{v, s, P_t, h} < \theta$}
-  \State ask the user for clarification; update $(v, s, P_t, h)$
-\EndWhile
-\State $D \gets \Call{Tool.GetHistory}{v, s, t}$ \Comment{MCP tool}
-\If{$D = \emptyset$}
-  \State \Return error ``no matching data''
-\EndIf
-\State $P_t \gets \Call{Tool.NormalizeSpec}{P_t, v}$
-\State $\hat{\Delta}_{t,h} \gets \Call{Tool.Forecast}{D, h}$ \Comment{RF or HGB}
-\State $\hat{P}_{t+h} \gets$ Eq.~\eqref{eq:modeA} or \eqref{eq:modeB}; compute baselines
-\State $R \gets \Call{LLM.Explain}{\hat{P}_{t+h}, \hat{\Delta}_{t,h}, \text{baselines}}$
-\State \Return $R$
+\Require vegetable $v$, store price $P_t$ and unit, date $t$; optional $P'_{t'}$
+\Ensure for $h\in\{7,14\}$: price, direction, date, source, warnings; or an error
+\State receive the query from the web form or the LLM via MCP
+\State ask for missing fields; reject an invalid price, unit, or date
+\State convert to NT\$/catty; MCP uses mode A and \texttt{all\_markets} if no market
+\State $X\gets$ features from data published by $t-1$; error if insufficient
+\State warn if public data are stale; public average $\neq$ store price
+\State $\hat{r}_h\gets$ \Call{ForecastEngine}{$X,h$} \Comment{RF or HGB}
+\State on model or tool failure, return an error (never guess)
+\State \texttt{all\_markets}: $\hat{r}_h\gets$ median over $\ge 3$ valid markets
+\State $\hat{P}^{(A)}_{t+h}\gets P_t(1+\hat{r}_h)$ \Comment{Eq.~\eqref{eq:modeA}}
+\State if $P'_{t'}$ is comparable, $\hat{P}^{(B)}_{t+h}$ by Eq.~\eqref{eq:modeB}
+\State classify each forecast with $\tau=5\%$; dates $t+7$, $t+14$
+\State \Return prices, directions, dates, source, warnings \Comment{LLM explains}
 \end{algorithmic}
 \end{algorithm}
 
@@ -153,7 +168,7 @@ clarification/error branch.}
 \subsection{Key Points}
 FMPA differs from a price chatbot in three ways: (i) the forecast is anchored
 on the store price the user observes rather than on a market average;
-(ii) horizons are fixed calendar days, so every forecast can later be checked
-against the real price on day $t+h$; and (iii) the LLM never produces a price.
-Section~\ref{sec:experiments} evaluates the forecasting core against strong
-simple baselines.
+(ii) horizons are fixed calendar days from the user's today, so every forecast
+can later be checked against the real price on day $t+h$; and (iii) the LLM
+never produces a price. Section~\ref{sec:experiments} evaluates the
+forecasting core against strong simple baselines.

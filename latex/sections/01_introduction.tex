@@ -28,7 +28,8 @@ wholesale to retail incompletely and
 asymmetrically~\cite{ward1982asymmetry,meyer2004asymmetric}. Second, retail
 prices are sticky: most prices stay unchanged for weeks or months and then
 jump~\cite{bils2004some,nakamura2008five}. In our data, 86.7--92.8\% of
-seven-day price pairs have exactly the same price at both ends, so a forecaster
+seven-day price pairs have exactly the same price at both ends, depending on
+the vegetable, so a forecaster
 that always predicts ``no change'' is hard to beat. Third, large language
 models (LLMs) are attractive as a natural-language front end, but they can
 generate fluent yet unsupported content~\cite{huang2025survey}, which is
@@ -64,8 +65,9 @@ questions:
 \item \textbf{RQ1:} How well can the relative price change be forecast at
 fixed horizons of 7 and 14 calendar days, compared with no-change and momentum
 baselines?
-\item \textbf{RQ2:} Does a weekly-momentum adjustment (mode B) add value over
-pure store-price anchoring (mode A)?
+\item \textbf{RQ2:} Can a comparable same-store price from the previous week
+(mode B) add value over pure store-price anchoring (mode A), and how should
+this be validated?
 \item \textbf{RQ3:} Is a tool-based LLM agent a feasible, low-effort interface
 for consumer price queries?
 \end{itemize}
@@ -76,11 +78,12 @@ parses intent, selects MCP tools, and explains results, while every price is
 retrieved or computed by deterministic tools, with explicit errors when data
 are missing;
 \item \textbf{C2 (RQ1, RQ2):} a store-price-anchored forecasting formulation
-with two modes, evaluated at fixed 7- and 14-day calendar horizons under a
-leakage-safe protocol against strong naive baselines;
-\item \textbf{C3 (RQ1):} an empirical finding on 13 public markets in Taichung
-City that RandomForest and HistGradientBoosting models do not beat these
-baselines, with a domain explanation based on price stickiness.
+with two modes and a leakage-safe evaluation protocol at fixed 7- and 14-day
+calendar horizons against strong naive baselines, together with a paired
+same-store protocol for validating mode B;
+\item \textbf{C3 (RQ1):} an empirical finding on three vegetables in 13 public
+markets in Taichung City that RandomForest and HistGradientBoosting models do
+not beat these baselines, with a domain explanation based on price stickiness.
 \end{itemize}
 
 % L = List the organization

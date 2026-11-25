@@ -11,14 +11,14 @@
               font=\scriptsize\bfseries},
   biarr/.style={{Stealth[length=1.8mm]}-{Stealth[length=1.8mm]}, semithick}
 ]
-\node[llm] (entry) {\textbf{User entry} (web prototype / chat)\\
-  LLM: intent parsing, tool selection, explanation of results};
+\node[llm] (entry) {\textbf{User entry}: mobile web (modes A/B) and an\\
+  AI assistant (LLM): understands, selects tools, explains};
 \node[mod, below=5mm of entry] (mcp) {\textbf{MCP tools}\\
-  \texttt{get\_history}\quad\texttt{normalize\_spec}\quad\texttt{forecast}};
-\node[mod, below=5mm of mcp] (api) {\textbf{Oracle host API} (REST services)};
+  \texttt{get\_market\_quote}\quad\texttt{post\_forecast} (mode A)};
+\node[mod, below=5mm of mcp] (api) {\textbf{Oracle host API} (REST; validates fields and units)};
 \node[mod=2.95cm, minimum height=13mm, anchor=north west] (engine)
   at ([yshift=-5mm]api.south west) {\textbf{ForecastEngine}\\
-  RF (7 d) / HGB (14 d)\\ modes A/B, baselines};
+  RF (7 d) / HGB (14 d)\\ modes A/B};
 \node[mod=2.95cm, minimum height=13mm, anchor=north east] (data)
   at ([yshift=-5mm]api.south east) {\textbf{Public historical data}\\
   13 Taichung public markets};

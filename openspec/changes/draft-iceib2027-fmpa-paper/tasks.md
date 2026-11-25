@@ -44,7 +44,7 @@
 - [x] 6.3 T：參數設定（7 天 RF、14 天 HGB、B 模式 α = 0.3 固定不調）
 - [x] 6.4 U：結果表 `tables/comparison.tex`，數值格先放紅色 `\todo`
 - [x] 6.5 V：討論——為何簡單基線難贏（價格黏性）、A/B 模式意義、RQ3 原型可行性
-- [ ] 6.6 （作者）從 DIC3 實驗紀錄核對並填入 macro-F1 / MAE 實際數字，移除所有 `\todo`
+- [x] 6.6 從 DIC3 repo（`docs/midterm/public_test_results.json`、`design.md`、`configs/`）填入 macro-F1／MAE、日期、τ、超參數，並修正模式 B、MCP 工具、基線與資料描述；只剩作者資訊（8.6）
 
 ## 7. V. Conclusion（W–Z）
 

@@ -1,5 +1,5 @@
 % Fig. 2 -- FMPA processing flow: Input -> Check -> AI/Analytics -> Decision -> Output.
-% The "no" branch of the check returns a clarification request or an explicit error.
+% The "no" branch of the check asks for missing fields or returns an explicit error.
 \begin{tikzpicture}[
   font=\scriptsize,
   node distance=3.2mm,
@@ -15,19 +15,19 @@
   arr/.style={-{Stealth[length=1.8mm]}, semithick}
 ]
 \node[term] (start) {Start};
-\node[proc, below=of start] (in) {Input: vegetable $v$, store $s$,\\
-  observed price $P_t$, horizon $h$};
-\node[llm, below=of in] (parse) {LLM parses intent and selects MCP tools};
-\node[dec, below=of parse] (chk) {Data found and\\ confidence $\ge \theta$?};
+\node[proc, below=of start] (in) {Input: vegetable $v$, store price $P_t$,\\
+  unit, date $t$; optional last-week price};
+\node[llm, below=of in] (parse) {Web form or LLM (via MCP)\\ parses the query};
+\node[dec, below=of parse] (chk) {Input valid and\\ data sufficient?};
 \node[proc, below=of chk] (ai) {AI/Analytics: ForecastEngine\\
-  RF ($h{=}7$) or HGB ($h{=}14$), baselines};
-\node[proc, below=of ai] (decide) {Decision: apply mode A or mode B\\
-  (store-price anchoring)};
-\node[llm, below=of decide] (out) {Output: forecast, direction, evidence;\\
-  LLM explains, adds no numbers};
+  RF ($h{=}7$) or HGB ($h{=}14$), data to $t-1$};
+\node[proc, below=of ai] (decide) {Decision: mode A; add mode B only\\
+  if a comparable same-store price exists};
+\node[llm, below=of decide] (out) {Output: prices, $\pm5\%$ direction, dates,\\
+  warnings; LLM explains, adds no numbers};
 \node[term, below=of out] (end) {End};
-\node[err, right=6mm of chk] (err) {Ask for clarification or report
-  ``no data''};
+\node[err, right=6mm of chk] (err) {Ask for missing fields, reject, or report
+  error};
 
 \draw[arr] (start) -- (in);
 \draw[arr] (in) -- (parse);

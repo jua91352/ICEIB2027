@@ -23,7 +23,7 @@ Ref. & Year & Problem & AI Method & Domain Knowledge & Dataset & Findings & Limi
 \cite{yu2022market} & 2022 & Typhoon effects on prices & -- (econometric decomposition) & Warning raises demand, landfall cuts supply & Taiwan wholesale vegetables, 1996--2014 & Prices rise; effects vary by crop & Wholesale; pre-2015 data \\
 \cite{su2025food} & 2025 & Disaster shocks on food markets & -- (event study, DiD) & Expectations, stockpiling, imports & Daily cabbage, Taiwan's largest wholesale market & Repeated typhoons: earlier, longer response & Cabbage only \\
 \midrule
-FMPA & 2026 & Store-anchored 7/14-day forecast & LLM + MCP tools; RF/HGB & Stickiness, label maturity, unit normalization & 13 Taichung public markets & Models do not beat naive baselines & Public price $\neq$ store price \\
+FMPA & 2026 & Store-anchored 7/14-day forecast & LLM + MCP tools; RF/HGB & Stickiness, label maturity, unit comparability & 3 crops, 13 Taichung markets, 2025--2026 & Macro-F1 0.422/0.417, below momentum & Public price $\neq$ store price; mode B unvalidated \\
 \bottomrule
 \end{tabularx}
 \end{table*}
