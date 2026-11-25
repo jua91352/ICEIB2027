@@ -60,7 +60,7 @@
 - [x] 8.4 Overleaf 編譯（專案 FMPA-ICEIB2027-after）：0 errors、0 warnings、無 undefined citation、6 頁（≤ 8）
 - [ ] 8.5 （作者）Overleaf 下載 PDF 存為 `paper/before/before.pdf` 與 `paper/after/after.pdf`，並截圖修改前/後
 - [ ] 8.6 （作者）填入作者姓名、單位、email
-- [ ] 8.7 推送到 GitHub `jua91352/ICEIB2027`
+- [x] 8.7 推送到 GitHub `jua91352/ICEIB2027`（2026-11-25）
 
 ## 9. Overleaf + MCP（講義 Step 1、Step 2）
 
