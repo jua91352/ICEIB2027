@@ -12,7 +12,7 @@
 3. Agent 把 `../latex/` 的內容寫進 clone、commit、push 回 Overleaf。重新編譯後下載 PDF 存成 `after/after.pdf`，截圖存成 `after/overleaf-after.png`。
 4. Overleaf 右上角 **History** 會同時保留修改前與修改後兩個版本，可直接給老師看差異。
 
-> 不用 Git 的備案：把 `after/FMPA-ICEIB2027-after.zip` 另外上傳成一個新專案。
+> **Overleaf 免費方案（本專案實際情況）**：沒有 Git 存取權，第 2–3 步改為：修改前＝Overleaf 專案「DIC4」（老師模板）；修改後＝把 `after/FMPA-ICEIB2027-after.zip` 用 New project → Existing project (.zip) 上傳成新專案。Agent 的修改前→修改後紀錄在本機 MCP 資料夾 `%USERPROFILE%\overleaf-projects\fmpa-paper` 的兩個 git commit。
 
 ## 逐節修改對照
 

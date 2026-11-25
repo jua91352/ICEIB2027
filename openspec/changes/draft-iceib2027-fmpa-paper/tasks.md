@@ -65,7 +65,7 @@
 ## 9. Overleaf + MCP（講義 Step 1、Step 2）
 
 - [x] 9.1 安裝 `uv`（uvx）與 Claude Code CLI（`claude`），老師的部署腳本需要這兩個指令
-- [ ] 9.2 （作者）Overleaf → New Project → Upload Project，上傳 `paper/before/FMPA-ICEIB2027-before.zip`（修改前）
-- [ ] 9.3 （作者）Overleaf 專案 Menu → Git 複製 Git 網址；Account Settings → Git integration → Generate token
-- [ ] 9.4 （作者）執行 `setup_overleaf_mcp.ps1`：clone 到 `%USERPROFILE%\overleaf-projects\<資料夾>`，並以 `uvx mcp-server-git` 註冊 Claude Code MCP
-- [ ] 9.5 Agent 把 `latex/` 內容寫入 Overleaf 本機 clone、commit，push 回 Overleaf（修改後；Overleaf History 保留修改前）
+- [x] 9.2 Overleaf 專案「DIC4」＝上傳老師模板 `ICEIB2027-IEEE.zip`（修改前）
+- [x] 9.3 產生 Overleaf Git token；Git 網址 `https://git@git.overleaf.com/<DIC4 專案 ID>`
+- [x] 9.4 Overleaf 免費方案回 "no git access"，無法 clone → 依講義「local folder connect to MCP」改用本機資料夾 `%USERPROFILE%\overleaf-projects\fmpa-paper`（git init：commit 1 = 模板／修改前，commit 2 = FMPA／修改後），以 `uvx mcp-server-git` 註冊為 Claude Code MCP `overleaf-fmpa-paper`（`claude mcp list` 顯示 ✔ Connected）
+- [ ] 9.5 （作者）Overleaf → New project → Existing project (.zip)，上傳 `paper/after/FMPA-ICEIB2027-after.zip`（修改後），Recompile 檢查無錯誤

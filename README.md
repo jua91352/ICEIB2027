@@ -21,6 +21,11 @@
 3. **ChatGPT / Antigravity / Claude Code** → 讀 `myRef/` 與 DIC3 資料，產生 OpenSpec change 與 `latex/` 論文
 4. **Agent 加入 Overleaf MCP** → 講義 Step 2：Overleaf Git 網址 + Git token → 執行 `setup_overleaf_mcp.ps1`（clone 到 `%USERPROFILE%\overleaf-projects\<資料夾>`，`uvx mcp-server-git` 註冊成 Claude Code MCP）→ Agent 把 `latex/` 寫進 clone、commit、push 回 Overleaf（修改後）
 
+   **實際做法（Overleaf 免費方案）**：免費方案沒有 Git 存取權（clone 回 `no git access`），所以改用講義的「local folder connect to MCP」：
+   - 本機資料夾 `%USERPROFILE%\overleaf-projects\fmpa-paper` 用 `git init` 建立，commit 1＝老師模板（修改前，同 Overleaf「DIC4」專案），commit 2＝FMPA 論文（修改後）。
+   - 註冊：`claude mcp add overleaf-fmpa-paper --scope user -- uvx mcp-server-git --repository C:\Users\user\overleaf-projects\fmpa-paper`（PowerShell 請用 `claude.cmd`，否則 `--` 會被吃掉）；`claude mcp list` 顯示 ✔ Connected。
+   - Overleaf 上的修改後版本：New project → Existing project (.zip) 上傳 `paper/after/FMPA-ICEIB2027-after.zip`。
+
 ### Overleaf 為什麼一定要有 `main.tex`？
 
 Overleaf 專案的**根目錄**必須有主檔（`main.tex`，含 `\documentclass`）。所以上傳到 Overleaf 的是 `latex/` 的內容（或 `paper/*/` 裡的 zip，zip 根目錄就是 `main.tex`），**不要上傳整個 ICEIB2027 資料夾**——它的根目錄是作業 repo，不是 LaTeX 專案。GitHub Sync 不是必要的；講義用的是 Overleaf 的 Git integration。
