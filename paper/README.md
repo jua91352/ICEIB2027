@@ -2,8 +2,8 @@
 
 | 版本 | 位置 | 說明 |
 |---|---|---|
-| 修改前（before） | `before/latex/`、`before/FMPA-ICEIB2027-before.zip` | 原始 ICEIB 2027 IEEE 模板（與 `../ICEIB paper/ICEIB2027-IEEE.zip` 相同），全部為 placeholder |
-| 修改後（after） | `after/latex/`、`after/FMPA-ICEIB2027-after.zip` | 依 OpenSpec change `draft-iceib2027-fmpa-paper` 改寫的 FMPA 論文初稿（快照；持續編輯的版本在 `../latex/`） |
+| 修改前（before） | `before/before.pdf`（Overleaf 專案 DIC4 編譯，2 頁）、`before/latex/`、`before/FMPA-ICEIB2027-before.zip` | 原始 ICEIB 2027 IEEE 模板（與 `../ICEIB paper/ICEIB2027-IEEE.zip` 相同），全部為 placeholder |
+| 修改後（after） | `after/after.pdf`（Overleaf 專案 FMPA-ICEIB2027-after-v2 編譯，7 頁）、`after/latex/`、`after/FMPA-ICEIB2027-after.zip` | 依 OpenSpec change `draft-iceib2027-fmpa-paper` 改寫的 FMPA 論文初稿（快照；持續編輯的版本在 `../latex/`） |
 
 ## 在 Overleaf 上產生修改前 / 修改後（同一個專案）
 

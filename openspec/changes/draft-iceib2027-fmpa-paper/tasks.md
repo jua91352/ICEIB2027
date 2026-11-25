@@ -58,7 +58,7 @@
 - [x] 8.2 快照修改後版本到 `paper/after/` 並打包 zip；`paper/README.md` 寫修改前/後對照表
 - [x] 8.3 `openspec validate draft-iceib2027-fmpa-paper --strict` 通過
 - [x] 8.4 Overleaf 編譯（專案 FMPA-ICEIB2027-after-v2）：0 errors、0 warnings、無 undefined citation、7 頁（≤ 8）
-- [ ] 8.5 （作者）Overleaf 下載 PDF 存為 `paper/before/before.pdf` 與 `paper/after/after.pdf`，並截圖修改前/後
+- [x] 8.5 Overleaf 下載 PDF：`paper/before/before.pdf`（專案 DIC4，模板，2 頁）、`paper/after/after.pdf`（專案 FMPA-ICEIB2027-after-v2，7 頁）；修改前/後截圖為選用，尚未加入
 - [x] 8.6 作者：Ya-Ting Yu，Department of Computer Science and Engineering, National Chung Hsing University, Taichung；email 已填
 - [x] 8.7 推送到 GitHub `jua91352/ICEIB2027`（2026-11-25）
 
