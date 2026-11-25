@@ -1,0 +1,60 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes.geometric,arrows.meta,fit,calc}
+\graphicspath{{figures/}}
+
+% ---------------------------------------------------------------------------
+% Helper macros
+% \cnum{1}  : circled module number used in Fig. 1 and in the text
+%             (pdfLaTeX cannot typeset the Unicode character U+2460).
+% \todo{..} : visible red marker for content the authors must still verify.
+% \tbd      : short red marker for table cells awaiting verified numbers.
+% Y         : ragged-right X column for the article summary table.
+% ---------------------------------------------------------------------------
+\DeclareRobustCommand{\cnum}[1]{\tikz[baseline=(c.base)]{\node[circle,draw,inner sep=0.6pt,minimum size=1.15em,font=\scriptsize\bfseries](c){#1};}}
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
+\newcommand{\tbd}{\textcolor{red}{\textbf{TBD}}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\begin{document}
+
+\title{FMPA: A Store-Price-Anchored Domain AI Agent for\\
+7- and 14-Day Fresh Vegetable Price Forecasting}
+
+% TODO(author): replace with the real author list, affiliation and e-mail.
+% If ICEIB 2027 uses double-blind review, keep this block anonymous.
+\author{\IEEEauthorblockN{\todo{Author Name(s)}}
+\IEEEauthorblockA{\todo{Department, University}\\
+\todo{City, Taiwan}\\
+Email: \todo{author@example.com}}}
+
+\maketitle
+
+\input{sections/00_abstract}
+\input{sections/01_introduction}
+\input{sections/02_related_work}
+\input{sections/03_proposed_scheme}
+\input{sections/04_experiments}
+\input{sections/05_conclusion}
+
+\section*{Acknowledgment}
+% A2Z / course rule: disclose AI assistance.
+The authors used AI assistants (ChatGPT, Claude Code, and Google Antigravity
+with an Overleaf MCP connection) for literature search, drafting, and \LaTeX{}
+editing. All references, numbers, and claims were checked by the authors, who
+take full responsibility for the content.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

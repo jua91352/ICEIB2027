@@ -1,0 +1,91 @@
+\section{Experimental Evaluation}\label{sec:experiments}
+
+% S = Simulation setup
+\subsection{Dataset and Setup}
+We use historical daily vegetable prices from 13 public markets in Taichung
+City~\cite{taichung2026retail}, reported as market averages in NT\$ per catty
+(600\,g). The publisher uses a price of zero to mean that no price was
+recorded; such entries are treated as missing rather than as a $-100\%$
+change.
+% VERIFY(author): confirm that the DIC3 pipeline drops zero prices.
+Each sample is a (vegetable, market, day
+$t$) triple whose target is the relative change $\Delta_{t,h}$ of
+\eqref{eq:delta}. The data are split chronologically: models are trained on
+the earlier period and tested once on a held-out later period
+(\todo{train and test date ranges}). The held-out test sets contain
+$n=2{,}085$ samples for $h=7$ and $n=1{,}859$ samples for $h=14$.
+
+To prevent leakage~\cite{kaufman2012leakage}, a training sample at day $t$ is
+kept only if its target date $t+h$ falls before the split date; 1{,}386
+samples whose labels had not yet matured were removed. All features use
+information available on day $t$ only. Models are implemented in Python with
+scikit-learn~\cite{pedregosa2011scikit}.
+
+% Q = Quality and quantity (metrics), R = Related methods to compare
+\subsection{Baselines and Metrics}
+Two simple but strong baselines are used, following the forecasting practice
+of always comparing with naive methods~\cite{makridakis2020m4}:
+\begin{itemize}
+\item \textit{No-change (persistence):} $\hat{\Delta}_{t,h}=0$, i.e., the
+price stays as it is.
+\item \textit{Momentum:} the most recent relative change continues,
+$\hat{\Delta}_{t,h}=(M_t-M_{t-h})/M_{t-h}$.
+% VERIFY(author): confirm the momentum window used in DIC3 (h days or 7 days).
+\end{itemize}
+
+\textit{Direction macro-F1.} Each change is mapped to a class
+$c\in\mathcal{C}=\{\text{down},\text{flat},\text{up}\}$ using a tolerance
+$\tau$ around zero (\todo{value of $\tau$}). With $F_1^{(c)}$ the F1-score of
+class $c$,
+\begin{equation}
+\text{macro-F1}=\frac{1}{|\mathcal{C}|}\sum_{c\in\mathcal{C}}F_1^{(c)} .
+\label{eq:f1}
+\end{equation}
+Macro averaging prevents the dominant ``flat'' class from hiding errors on the
+rare but important up and down moves.
+
+\textit{Relative-change MAE.}
+\begin{equation}
+\text{MAE}=\frac{1}{n}\sum_{i=1}^{n}\bigl|\Delta_i-\hat{\Delta}_i\bigr| .
+\label{eq:mae}
+\end{equation}
+Higher macro-F1 and lower MAE are better.
+
+% T = Tuning parameters
+\subsection{Parameter Settings}
+RandomForest is used for $h=7$ and HistGradientBoosting for $h=14$
+(\todo{hyperparameters and random seed}). The mode B weight is fixed at
+$\alpha=0.3$ and the agent threshold at $\theta$
+(\todo{value used in the prototype}); neither is tuned on the test set.
+
+% U = Useful results
+\subsection{Results}
+Table~\ref{tab:comparison} compares the models with the baselines. On both
+horizons, the learned models did not outperform the momentum baseline in
+direction macro-F1, and they did not outperform the no-change baseline in
+relative-change MAE. We report this negative result as is.
+
+\input{tables/comparison}
+
+% V = Verify effectiveness (discussion)
+\subsection{Discussion}
+\textit{Why are the baselines hard to beat?} In our data, 86.7--92.8\% of
+seven-day price pairs have exactly the same price at both ends. Such sticky
+series~\cite{nakamura2008five,bils2004some} make ``no change'' close to optimal
+for absolute error, while momentum captures the few persistent moves, for
+example after a typhoon. This agrees with large forecasting studies in which
+simple methods remain competitive~\cite{makridakis2020m4,zeng2023transformers}.
+
+\textit{RQ1 and RQ2.} At both 7 and 14 days, the evidence does not support
+using RF/HGB forecasts alone; the momentum signal deserves to be shown to the
+user. Whether mode B improves on mode A must be judged from the verified values
+in Table~\ref{tab:comparison}.
+
+\textit{RQ3.} The web prototype answers a natural-language query with mode A
+and mode B forecasts side by side, and every number shown comes from a tool
+call. This shows that low-effort querying is technically feasible; a user
+study is still needed to measure usefulness.
+
+\textit{Threats to validity.} The target is the public market price, which is
+only a proxy for the price in a specific store; results come from one city and
+one period; and the direction metric depends on $\tau$.

@@ -1,0 +1,78 @@
+\section{Related Work}\label{sec:related}
+% Course rule: about 1/2 AI technology (II-A) + 1/2 domain know-how (II-B).
+
+% M = Methods, AI side (old to new, simple to complex)
+\subsection{AI Technology for Price Forecasting and Agents}
+\textit{Agricultural price forecasting.} Peng et
+al.~\cite{peng2015developing} built an early crop-price forecasting service on
+open data from Taiwan's wholesale markets, comparing ARIMA, partial least
+squares, and neural networks. Zhang et al.~\cite{zhang2024short} trained an
+LSTM on daily prices of six vegetables from seven Beijing wholesale markets and
+reported higher accuracy than several machine-learning baselines. Zhao et
+al.~\cite{zhao2025vegetable} found that LLM-based forecasters generally
+outperform traditional and deep models, but not consistently across vegetables
+and time scales, and proposed a mixture of experts. All of these works forecast
+wholesale or market averages.
+
+\textit{Tree ensembles and simple baselines.} Random
+forests~\cite{breiman2001random} and histogram-based gradient
+boosting~\cite{ke2017lightgbm} are strong, data-efficient learners for tabular
+features such as recent price changes. However, in the M4 competition, pure
+machine-learning methods performed poorly compared with simple statistical
+benchmarks~\cite{makridakis2020m4}; a one-layer linear model can beat
+Transformer forecasters~\cite{zeng2023transformers}; and removing the LLM from
+LLM-based forecasters often does not reduce accuracy~\cite{tan2024language}.
+Reliable evaluation must also prevent future information from leaking into
+training~\cite{kaufman2012leakage}.
+
+\textit{LLM agents and tool use.} ReAct interleaves reasoning with tool actions
+and reduces hallucination in knowledge-intensive tasks~\cite{yao2023react};
+Toolformer teaches a model to call APIs such as a
+calculator~\cite{schick2023toolformer}. Hallucination nevertheless remains an
+open problem~\cite{huang2025survey}. MCP~\cite{anthropic2024mcp} offers an
+open, standard way for an agent host to call tool servers, which FMPA uses to
+keep all numeric work outside the LLM.
+
+% M = Methods, domain side
+\subsection{Domain Knowledge of Fresh Produce Prices}
+\textit{Price stickiness.} Retail prices change infrequently: about half of US
+consumer prices last less than 4.3 months~\cite{bils2004some}, regular prices
+are even more rigid once temporary sales are excluded~\cite{nakamura2008five},
+and grocery retailers keep sticky reference prices~\cite{eichenbaum2011reference}.
+A no-change forecast is therefore a natural and strong baseline.
+
+\textit{Price transmission.} For fresh vegetables, wholesale prices lead retail
+prices and the pass-through is asymmetric~\cite{ward1982asymmetry}; asymmetric
+transmission along food supply chains is common~\cite{meyer2004asymmetric}. A
+public market average is thus an imperfect proxy for the price in a particular
+store.
+
+\textit{Weather shocks and volatility.} Food prices are volatile, and their
+volatility must be measured carefully~\cite{gilbert2010food}. In Taiwan,
+typhoon warnings raise demand through expectations and stockpiling while
+landfall cuts supply, with effects that differ by crop~\cite{yu2022market}; in
+the largest cabbage wholesale market, typhoons raise prices, and repeated
+storms make the response start earlier and last longer~\cite{su2025food}.
+
+\textit{Public price data.} Taiwan publishes daily wholesale prices and
+volumes~\cite{moa2026trans}, and Taichung City publishes daily average prices
+of fruits and vegetables in 13 public retail markets, in NT\$ per catty
+(600\,g)~\cite{taichung2026retail}. Units differ across sources (per kilogram,
+per catty, per bundle), which motivates explicit unit normalization (M1 in
+Section~\ref{sec:method}).
+
+\input{tables/article_summary}
+
+% O = Organize (Table I), N = New proposed (gap -> our project)
+\subsection{Research Gap}
+Table~\ref{tab:summary} summarizes representative works.
+\textit{Existing research} forecasts wholesale or market averages with
+increasingly complex models, studies LLM agents mainly on language tasks, and
+explains price formation in economics. \textit{Limitations:} (i) no forecast is
+anchored on the price the consumer actually observes; (ii) few studies evaluate
+at fixed calendar horizons against no-change and momentum baselines under
+leakage control; and (iii) LLM-based systems may let the language model
+produce numbers. \textit{Research gap and our project:} FMPA addresses (i)
+with store-price anchoring, Eq.~\eqref{eq:modeA}; (ii) with the evaluation
+protocol of Section~\ref{sec:experiments}; and (iii) with an MCP tool boundary
+that keeps every number outside the LLM (Fig.~\ref{fig:architecture}).

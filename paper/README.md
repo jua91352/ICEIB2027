@@ -1,0 +1,39 @@
+# Overleaf 論文：修改前 / 修改後（DIC4 繳交項目 1）
+
+| 版本 | 位置 | 說明 |
+|---|---|---|
+| 修改前（before） | `before/latex/`、`before/FMPA-ICEIB2027-before.zip` | 原始 ICEIB 2027 IEEE 模板（與 `../ICEIB paper/ICEIB2027-IEEE.zip` 相同），全部為 placeholder |
+| 修改後（after） | `after/latex/`、`after/FMPA-ICEIB2027-after.zip` | 依 OpenSpec change `draft-iceib2027-fmpa-paper` 改寫的 FMPA 論文初稿（快照；持續編輯的版本在 `../latex/`） |
+
+## 在 Overleaf 上比較
+
+1. Overleaf → **New Project → Upload Project**，上傳 `before/FMPA-ICEIB2027-before.zip`，編譯後下載 PDF，存成 `before/before.pdf`。
+2. 同樣上傳 `after/FMPA-ICEIB2027-after.zip`（主檔 `main.tex`，編譯器 pdfLaTeX），下載 PDF 存成 `after/after.pdf`。
+3. （可選）兩個專案各截一張圖存成 `before/overleaf-before.png`、`after/overleaf-after.png`。
+
+## 逐節修改對照
+
+| 章節 / 檔案 | 修改前 | 修改後 | A2Z 查核點 |
+|---|---|---|---|
+| `main.tex` | 標題 "Your Research Paper Title"、範例作者 | FMPA 正式標題；加入 TikZ、tabularx；`\cnum`、`\todo`、`\tbd` 巨集；AI 使用揭露 Acknowledgment | — |
+| `00_abstract.tex` | 3 句 placeholder | 232 字 A–F 六段式摘要 + 6 個 keywords | A–F |
+| `01_introduction.tex` | 4 個空 subsection | 公開證據引題、三大挑戰、文獻分類與評論、RQ1–RQ3、C1–C3、文章結構 | G–L |
+| `02_related_work.tex` | 1 個範例引用 | AI 技術與領域知識各一節、Research Gap → Our Project | M–O |
+| `tables/article_summary.tex` | （無） | 8 欄 Article Summary Table（`table*`） | O |
+| `03_proposed_scheme.tex` | 範例公式與 3 行演算法 | 設計目標、M1–M5 設計原則、模組 ①–⑤、公式 (1)–(3)、範例、流程、Algorithm 1（14 行） | PA–PL |
+| `figures/architecture.tex` | 空白方框 | TikZ 架構圖（①–⑤，虛線框標出「LLM 不算價」邊界） | PG |
+| `figures/flowchart.tex` | （無） | TikZ 流程圖（含資料檢查失敗 → 澄清／錯誤分支） | PI |
+| `tables/notation.tex` | （無） | 符號表 | PF |
+| `04_experiments.tex` | 4 個空 subsection | 資料與防洩漏、基線、指標公式、參數、結果、討論、效度威脅 | Q–V |
+| `tables/comparison.tex` | Baseline A/B、Proposed | 7/14 天 × 不變價／動量／RF・HGB 模式 A・B；數字格為紅色 **TBD** | U |
+| `05_conclusion.tex` | 1 句 placeholder | W/X/Y/Z 四段 | W–Z |
+| `references.bib` | 1 筆範例（Shannon 1948） | 已查證之真實文獻（AI 與領域約各半） | — |
+
+## 投稿前作者必須處理（論文中以紅字標示）
+
+- [ ] `tables/comparison.tex`：從 DIC3 實驗紀錄填入 macro-F1 / MAE，刪除所有 **TBD**。
+  **不要**使用 `myRef/` 資訊圖表上的數字——該圖是 AI 生成，7 天 RF 的 MAE（0.060）比不變價（0.062）低，與文字「MAE 未勝不變價基線」矛盾。
+- [ ] `04_experiments.tex`：訓練/測試日期範圍、方向容忍值 τ、RF/HGB 超參數與 seed、θ 數值。
+- [ ] `03_proposed_scheme.tex` 公式 (3)（模式 B）與 `04_experiments.tex` 動量基線的視窗：原始碼中標 `VERIFY(author)`，請對照 DIC3 ForecastEngine 程式確認。
+- [ ] `main.tex`：作者、單位、email（若雙盲審查則保持匿名）。
+- [ ] Overleaf 編譯：無錯誤、無 undefined citation、≤ 8 頁。

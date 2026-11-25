@@ -1,0 +1,35 @@
+\begin{abstract}
+% A = Attention getter (motivation)
+Fresh vegetable prices in Taiwan can jump sharply after typhoons and heavy
+rain, yet a shopper who sees a price on a store shelf today has no tool that
+says whether it is likely to rise or fall in the coming weeks.
+% B = But (challenge)
+Published market averages are not the price of an individual store, retail
+prices stay unchanged most of the time and then move abruptly, and large
+language models (LLMs) asked about prices directly may produce unsupported
+numbers.
+% C = Cure (proposed solution)
+We propose the Fresh Market Price Forecast Agent (FMPA), a domain AI agent
+that anchors short-term forecasts on the store price the user observes.
+% D = Development (method)
+FMPA restricts the LLM to intent parsing and explanation, obtains every number
+through Model Context Protocol (MCP) tools, and estimates the relative price
+change at 7 and 14 calendar days with RandomForest and HistGradientBoosting
+models, applied either directly to the current price (mode A) or with a fixed
+weekly-momentum adjustment (mode B).
+% E = Experiments (evaluation)
+We evaluate FMPA on historical prices from 13 public markets in Taichung City
+with a leakage-safe chronological split (2,085 seven-day and 1,859
+fourteen-day test samples), against no-change and momentum baselines, using
+direction macro-F1 and the mean absolute error of the relative change.
+% F = Findings
+The learned models did not outperform these simple baselines, which is
+consistent with sticky retail prices. We therefore position FMPA as a
+transparent, store-anchored decision aid and identify paired same-store
+validation as the key next step.
+\end{abstract}
+
+\begin{IEEEkeywords}
+LLM agent, Model Context Protocol, vegetable price forecasting, sticky prices,
+forecasting baselines, decision support
+\end{IEEEkeywords}

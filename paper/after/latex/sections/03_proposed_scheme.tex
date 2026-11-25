@@ -1,0 +1,159 @@
+\section{Proposed Scheme}\label{sec:method}
+
+% PA = Aim
+\subsection{Design Aim}
+Given a natural-language query that names a vegetable $v$, a store or market
+$s$, and the price $P_t$ the user observes on day $t$, FMPA returns, for a
+horizon $h\in\{7,14\}$ calendar days, a forecast price $\hat{P}_{t+h}$, the
+predicted direction of change (down, flat, or up), and a short explanation of
+the evidence. When the evidence is insufficient, FMPA returns a clarification
+request or an explicit error instead of a number.
+
+% PB = Based on (domain mindsets), PC = Cure (why the design helps)
+\subsection{Design Principles from Domain Knowledge}
+The design is based on five domain mindsets (M1--M5) that we distilled from
+the literature in Section~\ref{sec:related} and from our data; each maps to a
+system component.
+\begin{itemize}
+\item \textbf{M1 Price comparability first.} Prices are only comparable after
+units and specifications (e.g., per bundle vs.\ per catty) are normalized
+$\rightarrow$ a \texttt{normalize\_spec} tool.
+\item \textbf{M2 Temporal integrity.} A target at $t+h$ may be used for
+training only after it has matured; in our data, 1{,}386 immature samples were
+conservatively removed $\rightarrow$ a label-maturity filter in the training
+pipeline.
+\item \textbf{M3 Simple baselines first.} Because most retail prices do not
+change within a week~\cite{nakamura2008five}, every forecast is reported next
+to no-change and momentum baselines $\rightarrow$ baselines are computed by the
+ForecastEngine.
+\item \textbf{M4 Public $\neq$ private.} Public market averages describe a
+trend, not the price in a given store~\cite{meyer2004asymmetric}
+$\rightarrow$ store-price anchoring \eqref{eq:modeA}.
+\item \textbf{M5 Error $\neq$ utility.} A small average error does not imply a
+better purchase decision $\rightarrow$ the output shows direction and evidence,
+not only a point value.
+\end{itemize}
+
+% PD = Design, PE = Paper elements, PG = Graph
+\subsection{System Architecture}
+Fig.~\ref{fig:architecture} shows the five modules of FMPA.
+
+\cnum{1}~\textit{User entry.} A web prototype and chat interface receive the
+query. An LLM extracts the intent $(v, s, P_t, h, \text{mode})$, selects tools,
+and finally explains the returned results in plain language. It is the only
+module that uses the LLM.
+
+\cnum{2}~\textit{MCP tools.} Typed tools exposed through the Model Context
+Protocol~\cite{anthropic2024mcp}---\texttt{get\_history},
+\texttt{normalize\_spec}, and \texttt{forecast}---validate their arguments and
+return JSON. The LLM can obtain a number only through these tools.
+
+\cnum{3}~\textit{Oracle host API.} A REST service on a cloud host serves the
+tools, keeping data access and model inference outside the LLM context.
+
+\cnum{4}~\textit{ForecastEngine.} A RandomForest~\cite{breiman2001random}
+model for $h=7$ and a HistGradientBoosting model~\cite{ke2017lightgbm} for
+$h=14$, both implemented with scikit-learn~\cite{pedregosa2011scikit},
+estimate the relative change; the engine then applies mode A or B and computes
+the baselines.
+
+\cnum{5}~\textit{Public historical data.} Daily price records from 13 public
+markets in Taichung City are used for features, training, and evaluation.
+
+\begin{figure}[t]
+\centering
+\input{figures/architecture}
+\caption{FMPA architecture. The LLM (green) only parses intent and explains
+results; modules \cnum{2}--\cnum{5} inside the dashed box retrieve or compute
+every number.}
+\label{fig:architecture}
+\end{figure}
+
+% PF = Formulation
+\subsection{Problem Formulation}
+Table~\ref{tab:notation} lists the notation. Let $M_t$ be the public market
+price of $v$ on day $t$. The learning target is the relative change of the
+market price over $h$ calendar days,
+\begin{equation}
+\Delta_{t,h}=\frac{M_{t+h}-M_t}{M_t},
+\label{eq:delta}
+\end{equation}
+and the ForecastEngine outputs an estimate $\hat{\Delta}_{t,h}$.
+
+\textit{Mode A (store-price anchoring)} transfers the estimated relative change
+to the price the user actually sees:
+\begin{equation}
+\hat{P}^{(A)}_{t+h}=P_t\,\bigl(1+\hat{\Delta}_{t,h}\bigr).
+\label{eq:modeA}
+\end{equation}
+
+\textit{Mode B (weekly momentum adjustment)} adds a fixed fraction of the most
+recent weekly momentum $m_t=(M_t-M_{t-7})/M_{t-7}$:
+% VERIFY(author): confirm this exact form of mode B against the DIC3
+% ForecastEngine code before submission.
+\begin{equation}
+\hat{P}^{(B)}_{t+h}=P_t\,\bigl(1+\hat{\Delta}_{t,h}+\alpha\, m_t\bigr),
+\qquad \alpha=0.3 .
+\label{eq:modeB}
+\end{equation}
+The coefficient $\alpha$ is fixed in advance and is not tuned on test data.
+
+\input{tables/notation}
+
+% PJ = Jump to an example
+\textit{Example.} A user reports green onions at NT\$380 per bundle, the
+price reported in Taipei during Typhoon Podul~\cite{pts2025onion}. If the
+engine returns $\hat{\Delta}_{t,7}=+2.4\%$, mode A gives
+$\hat{P}^{(A)}_{t+7}=380\times1.024\approx$ NT\$389. The numbers in this
+example are illustrative and are not experimental results.
+
+% PH = How, PI = Implementation (flowchart + pseudocode)
+\subsection{Processing Flow and Algorithm}
+Fig.~\ref{fig:flowchart} shows the processing flow from input to output. The
+check after intent parsing is the key safety step: if no matching history is
+found, or the intent confidence is below $\theta$, FMPA asks the user for
+clarification or reports ``no data'' rather than letting the LLM guess.
+Algorithm~\ref{alg:fmpa} gives the corresponding pseudocode. Lines 2 and 13
+are the only LLM calls; the forecast value is produced by tools in lines
+11--12.
+
+\begin{figure}[t]
+\centering
+\input{figures/flowchart}
+\caption{Processing flow of FMPA: Input $\rightarrow$ Check $\rightarrow$
+AI/Analytics $\rightarrow$ Decision $\rightarrow$ Output, with a
+clarification/error branch.}
+\label{fig:flowchart}
+\end{figure}
+
+\begin{algorithm}[t]
+\caption{FMPA query handling}
+\label{alg:fmpa}
+\begin{algorithmic}[1]
+\Require user query $q$ (text), threshold $\theta$, mode $\in\{A,B\}$
+\Ensure response $R$ (forecast, direction, explanation) or an error
+\State $u \gets \Call{Preprocess}{q}$
+\State $(v, s, P_t, h) \gets \Call{LLM.ParseIntent}{u}$
+\While{$\Call{Confidence}{v, s, P_t, h} < \theta$}
+  \State ask the user for clarification; update $(v, s, P_t, h)$
+\EndWhile
+\State $D \gets \Call{Tool.GetHistory}{v, s, t}$ \Comment{MCP tool}
+\If{$D = \emptyset$}
+  \State \Return error ``no matching data''
+\EndIf
+\State $P_t \gets \Call{Tool.NormalizeSpec}{P_t, v}$
+\State $\hat{\Delta}_{t,h} \gets \Call{Tool.Forecast}{D, h}$ \Comment{RF or HGB}
+\State $\hat{P}_{t+h} \gets$ Eq.~\eqref{eq:modeA} or \eqref{eq:modeB}; compute baselines
+\State $R \gets \Call{LLM.Explain}{\hat{P}_{t+h}, \hat{\Delta}_{t,h}, \text{baselines}}$
+\State \Return $R$
+\end{algorithmic}
+\end{algorithm}
+
+% PK = Key points, PL = Later how to simulate
+\subsection{Key Points}
+FMPA differs from a price chatbot in three ways: (i) the forecast is anchored
+on the store price the user observes rather than on a market average;
+(ii) horizons are fixed calendar days, so every forecast can later be checked
+against the real price on day $t+h$; and (iii) the LLM never produces a price.
+Section~\ref{sec:experiments} evaluates the forecasting core against strong
+simple baselines.

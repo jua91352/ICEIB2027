@@ -1,0 +1,27 @@
+\section{Conclusion}\label{sec:conclusion}
+
+% W = What proposed
+This paper presented FMPA, a domain AI agent that helps consumers judge whether
+a vegetable price they see today is likely to change in the next 7 or 14 days.
+It addresses three challenges: public averages are not store prices, retail
+prices are sticky with rare jumps, and LLMs should not invent numbers.
+
+% X = eXcel (where it fits)
+FMPA is designed for the moment of purchase: it anchors forecasts on the
+observed store price, uses fixed calendar horizons that can later be checked,
+and keeps every number inside deterministic MCP tools, with explicit errors
+when data are missing.
+
+% Y = Yields
+On 13 public markets in Taichung City, RandomForest and HistGradientBoosting
+models did not outperform the momentum baseline in direction macro-F1 or the
+no-change baseline in relative-change MAE. The current value of FMPA therefore
+lies in its transparent, store-anchored presentation of forecasts and
+baselines, not in superior accuracy.
+
+% Z = Zen (limitations and future work)
+The main limitation is that public market prices are only a proxy for
+individual store prices. Future work will collect matured same-store prices
+for paired validation of the forecasts, add weather and supply features such
+as typhoon warnings and arrival volumes, study multi-horizon models, and run a
+user study of the agent interface.

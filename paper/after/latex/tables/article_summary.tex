@@ -1,0 +1,29 @@
+% Table I -- 8-column article summary required by the course proposal rules.
+% "Limitation" is written relative to the FMPA problem setting.
+\begin{table*}[t]
+\caption{Article summary of representative related work}
+\label{tab:summary}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\textwidth}{@{}l c Y Y Y Y Y Y@{}}
+\toprule
+Ref. & Year & Problem & AI Method & Domain Knowledge & Dataset & Findings & Limitation \\
+\midrule
+\cite{peng2015developing} & 2015 & Crop price forecasting service & ARIMA, PLS, ANN & Wholesale market open data & Daily prices of four crops, Taiwan & PLS suits short, ANN long horizons & Wholesale only; no store anchor \\
+\cite{zhang2024short} & 2024 & Short-term vegetable prices & LSTM vs.\ ML models & Wholesale vegetable markets & 6 vegetables, 7 Beijing markets, 2009--2023 & LSTM most accurate ($R^2=0.958$) & Market averages; compared with learned models \\
+\cite{zhao2025vegetable} & 2025 & Vegetable price forecasting & Mixture of LLM and deep experts & Vegetables differ in price dynamics & Vegetable price series & LLMs often best, but inconsistent & No store prices; no agent interface \\
+\cite{makridakis2020m4} & 2020 & Which forecasting methods work & 61 statistical, ML, hybrid methods & Naive benchmarks as reference & 100,000 series & Pure ML weak vs.\ simple benchmarks & Not food or retail prices \\
+\cite{tan2024language} & 2024 & Are LLMs useful for forecasting & Ablation of LLM components & -- & Standard benchmarks & Removing the LLM does not hurt & Not price data \\
+\cite{yao2023react} & 2023 & Ungrounded LLM reasoning & Reasoning + tool actions & -- & QA, fact checking, interactive tasks & Tool calls reduce hallucination & No numeric forecasting \\
+\cite{nakamura2008five} & 2008 & How often prices change & -- (descriptive statistics) & Sales vs.\ regular prices & US CPI/PPI microdata & Regular prices are rigid & US data; not produce-specific \\
+\cite{ward1982asymmetry} & 1982 & Vegetable price linkages & -- (asymmetry tests) & Wholesale leads retail & US fresh vegetables & Asymmetric pass-through & Old; US markets \\
+\cite{meyer2004asymmetric} & 2004 & Asymmetric price transmission & -- (survey of econometric tests) & Farm--wholesale--retail chain & Literature & Asymmetry is common & No forecasting \\
+\cite{yu2022market} & 2022 & Typhoon effects on prices & -- (econometric decomposition) & Warning raises demand, landfall cuts supply & Taiwan wholesale vegetables, 1996--2014 & Prices rise; effects vary by crop & Wholesale; pre-2015 data \\
+\cite{su2025food} & 2025 & Disaster shocks on food markets & -- (event study, DiD) & Expectations, stockpiling, imports & Daily cabbage, Taiwan's largest wholesale market & Repeated typhoons: earlier, longer response & Cabbage only \\
+\midrule
+FMPA & 2026 & Store-anchored 7/14-day forecast & LLM + MCP tools; RF/HGB & Stickiness, label maturity, unit normalization & 13 Taichung public markets & Models do not beat naive baselines & Public price $\neq$ store price \\
+\bottomrule
+\end{tabularx}
+\end{table*}

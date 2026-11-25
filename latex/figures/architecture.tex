@@ -1,0 +1,42 @@
+% Fig. 1 -- FMPA system architecture (modules 1-5). Single-column TikZ figure.
+% Module numbers must match the description in sections/03_proposed_scheme.tex.
+\begin{tikzpicture}[
+  font=\scriptsize,
+  mod/.style={draw, rounded corners=2pt, align=center, text width=#1,
+              minimum height=9mm, fill=blue!6},
+  mod/.default=6.4cm,
+  llm/.style={mod=#1, fill=green!10},
+  llm/.default=6.4cm,
+  num/.style={circle, draw, fill=white, inner sep=0.6pt, minimum size=1.15em,
+              font=\scriptsize\bfseries},
+  biarr/.style={{Stealth[length=1.8mm]}-{Stealth[length=1.8mm]}, semithick}
+]
+\node[llm] (entry) {\textbf{User entry} (web prototype / chat)\\
+  LLM: intent parsing, tool selection, explanation of results};
+\node[mod, below=5mm of entry] (mcp) {\textbf{MCP tools}\\
+  \texttt{get\_history}\quad\texttt{normalize\_spec}\quad\texttt{forecast}};
+\node[mod, below=5mm of mcp] (api) {\textbf{Oracle host API} (REST services)};
+\node[mod=2.95cm, minimum height=13mm, anchor=north west] (engine)
+  at ([yshift=-5mm]api.south west) {\textbf{ForecastEngine}\\
+  RF (7 d) / HGB (14 d)\\ modes A/B, baselines};
+\node[mod=2.95cm, minimum height=13mm, anchor=north east] (data)
+  at ([yshift=-5mm]api.south east) {\textbf{Public historical data}\\
+  13 Taichung public markets};
+
+\node[num] at (entry.north west) {1};
+\node[num] at (mcp.north west) {2};
+\node[num] at (api.north west) {3};
+\node[num] at (engine.north west) {4};
+\node[num] at (data.north west) {5};
+
+\draw[biarr] (entry) -- node[right, font=\tiny]{tool calls / JSON results} (mcp);
+\draw[biarr] (mcp) -- (api);
+\draw[biarr] (api.south -| engine.north) -- (engine.north);
+\draw[biarr] (api.south -| data.north) -- (data.north);
+
+\node[draw, dashed, rounded corners=3pt, inner sep=2.5mm,
+      fit=(mcp)(api)(engine)(data),
+      label={[font=\tiny\itshape, anchor=north, align=center, text width=6.4cm]%
+      south:{deterministic tools --- every price is retrieved or computed here,
+      never by the LLM}}] {};
+\end{tikzpicture}

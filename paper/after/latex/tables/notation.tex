@@ -1,0 +1,20 @@
+\begin{table}[t]
+\caption{Notation}
+\label{tab:notation}
+\centering
+\footnotesize
+\begin{tabular}{@{}ll@{}}
+\toprule
+Symbol & Meaning \\
+\midrule
+$t$, $h$ & query day; horizon $h\in\{7,14\}$ calendar days \\
+$P_t$ & price observed by the user in store $s$ on day $t$ \\
+$M_t$ & public market price of vegetable $v$ on day $t$ \\
+$\Delta_{t,h}$, $\hat{\Delta}_{t,h}$ & true and estimated relative change, Eq.~\eqref{eq:delta} \\
+$m_t$ & weekly momentum $(M_t-M_{t-7})/M_{t-7}$ \\
+$\alpha$ & fixed momentum weight in mode B ($0.3$) \\
+$\theta$ & intent-confidence threshold of the agent \\
+$\hat{P}^{(A)}_{t+h}$, $\hat{P}^{(B)}_{t+h}$ & forecasts of modes A and B \\
+\bottomrule
+\end{tabular}
+\end{table}

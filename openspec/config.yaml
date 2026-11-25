@@ -1,0 +1,38 @@
+schema: spec-driven
+
+context: |
+  Project: DIC4 — turn the DIC3 course project FMPA (Fresh Market Price Forecast Agent)
+  into an IEEE conference paper draft for ICEIB 2027 (IEEE track, IEEEtran conference
+  class, 4–8 pages, English). The "product" of this repository is the paper, not software.
+  - LaTeX source lives in latex/ (Overleaf-ready, main.tex + sections/ + tables/ + figures/).
+  - The untouched starting template is kept in "ICEIB paper/" and paper/before/ (修改前).
+  - The revised draft is snapshotted in paper/after/ (修改後).
+  - Writing method: A2Z SOP (myRef/A2Z-SOP-reference.md): Abstract A–F, Introduction G–L,
+    Related Work M–O, Proposed Scheme PA–PM, Simulation Q–V, Conclusion W–Z.
+  - Course rules (期末專題提案作業規範): Domain AI Agent = AI Agent + Domain Knowledge +
+    Data Analytics + Real-World Application; Related Work ≈ 1/2 AI + 1/2 domain know-how,
+    with an 8-column Article Summary Table; architecture modules numbered ①②③…;
+    flowchart; numbered pseudocode.
+  - Source facts about FMPA come only from AIoT-DIC3-ProjectRefactor/README.md and
+    myRef/ (FMPA analysis). Workflow: DIC3 data → Overleaf → ChatGPT/Antigravity/Claude →
+    agent + Overleaf MCP edits the LaTeX.
+
+rules:
+  proposal:
+    - State the goal of the paper revision in terms of A2Z checkpoints, not software features.
+    - List every LaTeX file that will change under Impact.
+  specs:
+    - One capability per paper part (abstract, introduction, related work, proposed scheme,
+      evaluation, conclusion, references/integrity).
+    - Scenarios must be checkable by a reviewer reading the compiled PDF or the .tex source.
+  design:
+    - Explain writing decisions (story line, terminology, figure/table choices) and the
+      Overleaf + agent workflow, including how before/after versions are kept.
+  tasks:
+    - Group tasks by paper section; each task should be small enough to verify in one read.
+    - Keep tasks that need the author (Overleaf compile, inserting measured numbers) unchecked.
+  all:
+    - Never fabricate experimental numbers, citations, or quotations; mark missing values
+      as TODO for the author.
+    - Every citation key used in the paper must exist in latex/references.bib and refer to
+      a real, verifiable source.

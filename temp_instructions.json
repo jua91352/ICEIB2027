@@ -1,0 +1,20 @@
+{
+  "changeName": "draft-iceib2027-fmpa-paper",
+  "artifactId": "proposal",
+  "schemaName": "spec-driven",
+  "changeDir": "D:\\urt\\week 12(DIC4)\\ICEIB2027\\openspec\\changes\\draft-iceib2027-fmpa-paper",
+  "outputPath": "proposal.md",
+  "description": "Initial proposal document outlining the change",
+  "instruction": "Create the proposal document that establishes WHY this change is needed.\n\nSections:\n- **Why**: 1-2 sentences on the problem or opportunity. What problem does this solve? Why now?\n- **What Changes**: Bullet list of changes. Be specific about new capabilities, modifications, or removals. Mark breaking changes with **BREAKING**.\n- **Capabilities**: Identify which specs will be created or modified:\n  - **New Capabilities**: List capabilities being introduced. Each becomes a new `specs/<name>/spec.md`. Use kebab-case names (e.g., `user-auth`, `data-export`).\n  - **Modified Capabilities**: List existing capabilities whose REQUIREMENTS are changing. Only include if spec-level behavior changes (not just implementation details). Each needs a delta spec file. Check `openspec/specs/` for existing spec names. Leave empty if no requirement changes.\n- **Impact**: Affected code, APIs, dependencies, or systems.\n\nIMPORTANT: The Capabilities section is critical. It creates the contract between\nproposal and specs phases. Research existing specs before filling this in.\nEach capability listed here will need a corresponding spec file.\n\nKeep it concise (1-2 pages). Focus on the \"why\" not the \"how\" -\nimplementation details belong in design.md.\n\nThis is the foundation - specs, design, and tasks all build on this.\n",
+  "context": "Project: DIC4 — turn the DIC3 course project FMPA (Fresh Market Price Forecast Agent)\ninto an IEEE conference paper draft for ICEIB 2027 (IEEE track, IEEEtran conference\nclass, 4–8 pages, English). The \"product\" of this repository is the paper, not software.\n- LaTeX source lives in latex/ (Overleaf-ready, main.tex + sections/ + tables/ + figures/).\n- The untouched starting template is kept in \"ICEIB paper/\" and paper/before/ (修改前).\n- The revised draft is snapshotted in paper/after/ (修改後).\n- Writing method: A2Z SOP (myRef/A2Z-SOP-reference.md): Abstract A–F, Introduction G–L,\n  Related Work M–O, Proposed Scheme PA–PM, Simulation Q–V, Conclusion W–Z.\n- Course rules (期末專題提案作業規範): Domain AI Agent = AI Agent + Domain Knowledge +\n  Data Analytics + Real-World Application; Related Work ≈ 1/2 AI + 1/2 domain know-how,\n  with an 8-column Article Summary Table; architecture modules numbered ①②③…;\n  flowchart; numbered pseudocode.\n- Source facts about FMPA come only from AIoT-DIC3-ProjectRefactor/README.md and\n  myRef/ (FMPA analysis). Workflow: DIC3 data → Overleaf → ChatGPT/Antigravity/Claude →\n  agent + Overleaf MCP edits the LaTeX.",
+  "rules": [
+    "State the goal of the paper revision in terms of A2Z checkpoints, not software features.",
+    "List every LaTeX file that will change under Impact."
+  ],
+  "template": "## Why\n\n<!-- Explain the motivation for this change. What problem does this solve? Why now? -->\n\n## What Changes\n\n<!-- Describe what will change. Be specific about new capabilities, modifications, or removals. -->\n\n## Capabilities\n\n### New Capabilities\n<!-- Capabilities being introduced. Replace <name> with kebab-case identifier (e.g., user-auth, data-export, api-rate-limiting). Each creates specs/<name>/spec.md -->\n- `<name>`: <brief description of what this capability covers>\n\n### Modified Capabilities\n<!-- Existing capabilities whose REQUIREMENTS are changing (not just implementation).\n     Only list here if spec-level behavior changes. Each needs a delta spec file.\n     Use existing spec names from openspec/specs/. Leave empty if no requirement changes. -->\n- `<existing-name>`: <what requirement is changing>\n\n## Impact\n\n<!-- Affected code, APIs, dependencies, systems -->\n",
+  "dependencies": [],
+  "unlocks": [
+    "design",
+    "specs"
+  ]
+}

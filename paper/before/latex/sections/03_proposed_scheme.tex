@@ -1,0 +1,28 @@
+\section{Proposed Scheme}\label{sec:method}
+\subsection{Problem Formulation}
+Define the inputs, outputs, assumptions, and objective function.
+\begin{equation}
+\theta^{*}=\arg\min_{\theta}\mathcal{L}(\theta).
+\label{eq:objective}
+\end{equation}
+\subsection{System Architecture}
+Describe the components and data flow in Fig.~\ref{fig:architecture}.
+\begin{figure}[t]
+\centering
+\IfFileExists{figures/architecture.pdf}{\includegraphics[width=\columnwidth]{architecture.pdf}}{\fbox{\parbox[c][25mm][c]{0.85\columnwidth}{\centering Insert system architecture here}}}
+\caption{Overview of the proposed system architecture.}
+\label{fig:architecture}
+\end{figure}
+\subsection{Proposed Algorithm}
+\begin{algorithm}[t]
+\caption{Illustrative processing procedure}
+\label{alg:method}
+\begin{algorithmic}[1]
+\Require Input data $X$, model parameters $\theta$
+\Ensure Output $Y$
+\State Preprocess $X$ to obtain $X'$
+\State $Y \gets f_{\theta}(X')$
+\State \Return $Y$
+\end{algorithmic}
+\end{algorithm}
+Replace the illustrative objective and algorithm with the actual method.

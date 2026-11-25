@@ -1,0 +1,26 @@
+{
+  "changeName": "draft-iceib2027-fmpa-paper",
+  "artifactId": "specs",
+  "schemaName": "spec-driven",
+  "changeDir": "D:\\urt\\week 12(DIC4)\\ICEIB2027\\openspec\\changes\\draft-iceib2027-fmpa-paper",
+  "outputPath": "specs/**/*.md",
+  "description": "Detailed specifications for the change",
+  "instruction": "Create specification files that define WHAT the system should do.\n\nCreate one spec file per capability listed in the proposal's Capabilities section.\n- New capabilities: use the exact kebab-case name from the proposal (specs/<capability>/spec.md).\n- Modified capabilities: use the existing spec folder name from openspec/specs/<capability>/ when creating the delta spec at specs/<capability>/spec.md.\n\nDelta operations (use ## headers):\n- **ADDED Requirements**: New capabilities\n- **MODIFIED Requirements**: Changed behavior - MUST include full updated content\n- **REMOVED Requirements**: Deprecated features - MUST include **Reason** and **Migration**\n- **RENAMED Requirements**: Name changes only - use FROM:/TO: format\n\nFormat requirements:\n- Each requirement: `### Requirement: <name>` followed by description\n- Use SHALL/MUST for normative requirements (avoid should/may)\n- Each scenario: `#### Scenario: <name>` with WHEN/THEN format\n- **CRITICAL**: Scenarios MUST use exactly 4 hashtags (`####`). Using 3 hashtags or bullets will fail silently.\n- Every requirement MUST have at least one scenario.\n\nMODIFIED requirements workflow:\n1. Locate the existing requirement in openspec/specs/<capability>/spec.md\n2. Copy the ENTIRE requirement block (from `### Requirement:` through all scenarios)\n3. Paste under `## MODIFIED Requirements` and edit to reflect new behavior\n4. Ensure header text matches exactly (whitespace-insensitive)\n\nCommon pitfall: Using MODIFIED with partial content loses detail at archive time.\nIf adding new concerns without changing existing behavior, use ADDED instead.\n\nExample:\n```\n## ADDED Requirements\n\n### Requirement: User can export data\nThe system SHALL allow users to export their data in CSV format.\n\n#### Scenario: Successful export\n- **WHEN** user clicks \"Export\" button\n- **THEN** system downloads a CSV file with all user data\n\n## REMOVED Requirements\n\n### Requirement: Legacy export\n**Reason**: Replaced by new export system\n**Migration**: Use new export endpoint at /api/v2/export\n```\n\nSpecs should be testable - each scenario is a potential test case.\n",
+  "context": "Project: DIC4 — turn the DIC3 course project FMPA (Fresh Market Price Forecast Agent)\ninto an IEEE conference paper draft for ICEIB 2027 (IEEE track, IEEEtran conference\nclass, 4–8 pages, English). The \"product\" of this repository is the paper, not software.\n- LaTeX source lives in latex/ (Overleaf-ready, main.tex + sections/ + tables/ + figures/).\n- The untouched starting template is kept in \"ICEIB paper/\" and paper/before/ (修改前).\n- The revised draft is snapshotted in paper/after/ (修改後).\n- Writing method: A2Z SOP (myRef/A2Z-SOP-reference.md): Abstract A–F, Introduction G–L,\n  Related Work M–O, Proposed Scheme PA–PM, Simulation Q–V, Conclusion W–Z.\n- Course rules (期末專題提案作業規範): Domain AI Agent = AI Agent + Domain Knowledge +\n  Data Analytics + Real-World Application; Related Work ≈ 1/2 AI + 1/2 domain know-how,\n  with an 8-column Article Summary Table; architecture modules numbered ①②③…;\n  flowchart; numbered pseudocode.\n- Source facts about FMPA come only from AIoT-DIC3-ProjectRefactor/README.md and\n  myRef/ (FMPA analysis). Workflow: DIC3 data → Overleaf → ChatGPT/Antigravity/Claude →\n  agent + Overleaf MCP edits the LaTeX.",
+  "rules": [
+    "One capability per paper part (abstract, introduction, related work, proposed scheme, evaluation, conclusion, references/integrity).",
+    "Scenarios must be checkable by a reviewer reading the compiled PDF or the .tex source."
+  ],
+  "template": "## ADDED Requirements\n\n### Requirement: <!-- requirement name -->\n<!-- requirement text -->\n\n#### Scenario: <!-- scenario name -->\n- **WHEN** <!-- condition -->\n- **THEN** <!-- expected outcome -->\n",
+  "dependencies": [
+    {
+      "id": "proposal",
+      "done": true,
+      "path": "proposal.md",
+      "description": "Initial proposal document outlining the change"
+    }
+  ],
+  "unlocks": [
+    "tasks"
+  ]
+}

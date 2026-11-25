@@ -1,0 +1,87 @@
+\section{Introduction}\label{sec:intro}
+
+% G = General (current situation, with public evidence)
+Fresh vegetables are among the most volatile items in Taiwanese household
+spending. Typhoons and heavy rain regularly damage field crops and disrupt
+shipments: after Typhoon Gaemi in 2024, the average wholesale vegetable price
+in Taipei reached NT\$57.5/kg, a five-year high~\cite{taiwannews2024gaemi}, and
+in December 2024 vegetable prices in the consumer price index were 30.69\%
+higher than a year earlier~\cite{ltn2025cpi}. During Typhoon Podul in August
+2025, the wholesale price of green onions rose by about one third, and a stall
+in a Taipei traditional market sold a single bundle for
+NT\$380~\cite{ltn2025onion,pts2025onion}; that month, vegetables were 10.9\%
+more expensive than a year before~\cite{taipeitimes2025cpi}. Price information
+itself is plentiful: the Ministry of Agriculture publishes daily wholesale
+quotations~\cite{moa2026trans}, and Taichung City publishes daily prices from
+its 13 public retail markets~\cite{taichung2026retail}. Yet a shopper in front
+of a stall sees only one number---today's price in this store---and must decide
+whether to buy now or wait.
+
+% H = However (challenges)
+However, three properties of the problem make this decision hard to support
+with data. First, public averages are not store prices: price changes pass from
+wholesale to retail incompletely and
+asymmetrically~\cite{ward1982asymmetry,meyer2004asymmetric}. Second, retail
+prices are sticky: most prices stay unchanged for weeks or months and then
+jump~\cite{bils2004some,nakamura2008five}. In our data, 86.7--92.8\% of
+seven-day price pairs have exactly the same price at both ends, so a forecaster
+that always predicts ``no change'' is hard to beat. Third, large language
+models (LLMs) are attractive as a natural-language front end, but they can
+generate fluent yet unsupported content~\cite{huang2025survey}, which is
+unacceptable when the output is a price.
+
+% I = In literature (categories of solutions, old to new)
+In the literature, agricultural price forecasting has moved from statistical
+models and early forecasting services built on open market
+data~\cite{peng2015developing}, to tree
+ensembles~\cite{breiman2001random,ke2017lightgbm}, deep sequence
+models~\cite{zhang2024short}, and, most recently, LLM-based
+forecasters~\cite{zhao2025vegetable}. In parallel, LLM agents have learned to
+call external tools~\cite{yao2023react,schick2023toolformer}, and the Model
+Context Protocol (MCP) now standardizes how agents connect to tools and
+data~\cite{anthropic2024mcp}.
+
+% J = Judgement (strengths and weaknesses)
+These lines of work have complementary weaknesses. Forecasting studies predict
+wholesale or market averages and often compare learned models with each other,
+although large competitions show that simple methods are hard to
+beat~\cite{makridakis2020m4} and that added complexity, including LLM
+components, does not always help~\cite{zeng2023transformers,tan2024language}.
+Agent studies, conversely, focus on language tasks and rarely address numeric
+forecasting, where a model that computes or guesses numbers itself undermines
+trust.
+
+% K = Keypoint (design spirit, RQs, contributions)
+This paper proposes the Fresh Market Price Forecast Agent (FMPA). Its design
+spirit is: \emph{anchor on what the user sees, compute only with tools, and
+evaluate against the strongest simple baseline.} We study three research
+questions:
+\begin{itemize}
+\item \textbf{RQ1:} How well can the relative price change be forecast at
+fixed horizons of 7 and 14 calendar days, compared with no-change and momentum
+baselines?
+\item \textbf{RQ2:} Does a weekly-momentum adjustment (mode B) add value over
+pure store-price anchoring (mode A)?
+\item \textbf{RQ3:} Is a tool-based LLM agent a feasible, low-effort interface
+for consumer price queries?
+\end{itemize}
+The main contributions of this work are as follows:
+\begin{itemize}
+\item \textbf{C1 (RQ3):} a domain AI agent architecture in which the LLM only
+parses intent, selects MCP tools, and explains results, while every price is
+retrieved or computed by deterministic tools, with explicit errors when data
+are missing;
+\item \textbf{C2 (RQ1, RQ2):} a store-price-anchored forecasting formulation
+with two modes, evaluated at fixed 7- and 14-day calendar horizons under a
+leakage-safe protocol against strong naive baselines;
+\item \textbf{C3 (RQ1):} an empirical finding on 13 public markets in Taichung
+City that RandomForest and HistGradientBoosting models do not beat these
+baselines, with a domain explanation based on price stickiness.
+\end{itemize}
+
+% L = List the organization
+The rest of this paper is organized as follows. Section~\ref{sec:related}
+reviews AI methods and domain knowledge and identifies the research gap.
+Section~\ref{sec:method} presents the proposed scheme.
+Section~\ref{sec:experiments} describes the experimental evaluation, and
+Section~\ref{sec:conclusion} concludes the paper.

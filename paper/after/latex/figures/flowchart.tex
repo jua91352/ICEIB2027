@@ -1,0 +1,41 @@
+% Fig. 2 -- FMPA processing flow: Input -> Check -> AI/Analytics -> Decision -> Output.
+% The "no" branch of the check returns a clarification request or an explicit error.
+\begin{tikzpicture}[
+  font=\scriptsize,
+  node distance=3.2mm,
+  proc/.style={draw, rectangle, align=center, text width=3.6cm,
+               minimum height=6mm, fill=blue!5},
+  llm/.style={proc, fill=green!10},
+  term/.style={draw, rounded corners=2.5mm, minimum width=1.6cm,
+               minimum height=5mm, fill=gray!12},
+  dec/.style={draw, diamond, aspect=2.6, align=center, inner sep=0.5pt,
+              fill=yellow!20},
+  err/.style={draw, rectangle, align=center, text width=1.9cm,
+              minimum height=6mm, fill=red!8},
+  arr/.style={-{Stealth[length=1.8mm]}, semithick}
+]
+\node[term] (start) {Start};
+\node[proc, below=of start] (in) {Input: vegetable $v$, store $s$,\\
+  observed price $P_t$, horizon $h$};
+\node[llm, below=of in] (parse) {LLM parses intent and selects MCP tools};
+\node[dec, below=of parse] (chk) {Data found and\\ confidence $\ge \theta$?};
+\node[proc, below=of chk] (ai) {AI/Analytics: ForecastEngine\\
+  RF ($h{=}7$) or HGB ($h{=}14$), baselines};
+\node[proc, below=of ai] (decide) {Decision: apply mode A or mode B\\
+  (store-price anchoring)};
+\node[llm, below=of decide] (out) {Output: forecast, direction, evidence;\\
+  LLM explains, adds no numbers};
+\node[term, below=of out] (end) {End};
+\node[err, right=6mm of chk] (err) {Ask for clarification or report
+  ``no data''};
+
+\draw[arr] (start) -- (in);
+\draw[arr] (in) -- (parse);
+\draw[arr] (parse) -- (chk);
+\draw[arr] (chk) -- node[right]{yes} (ai);
+\draw[arr] (ai) -- (decide);
+\draw[arr] (decide) -- (out);
+\draw[arr] (out) -- (end);
+\draw[arr] (chk) -- node[above]{no} (err);
+\draw[arr] (err.north) |- node[pos=0.25, right]{retry} (in.east);
+\end{tikzpicture}

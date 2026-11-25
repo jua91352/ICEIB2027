@@ -1,0 +1,19 @@
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+
+# Local Claude Code / MCP settings (may contain Overleaf tokens)
+.claude/settings.local.json
+.mcp.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
